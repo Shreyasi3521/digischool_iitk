@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | digiSchool</title>
+    <script src="formValidation.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
+    <style>
+        .logo {
+            border-radius: 60%;
+            border: 4px solid;
+            width: 80px;
+            height: auto;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+        .tophead {
+            margin-top: 2px;
+            background-image: url("bg_logo.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .homeicon {
+            width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <div class="row tophead">
+            <div class="col-sm-10">
+                <img class="logo" src="logo_cright.jpg" alt="digiSchool">
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Home</a>
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/contact/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Contact Us</a>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class = "col-lg-2">
+                <p>Profile</p><br>
+                <p>Lectures</p><br>
+                <p>Test</p><br>
+                <p>Forums</p><br>
+                <p>Logout</p><br>
+            </div>
+            <div class ="col-lg-10 container">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <img src="{{ user_id.profilepic }}"></a>
+                    </div>
+                    <div class ="col-lg-10">
+                        <p>Name: {{ user_id.userDBmodeldata.first_name }} {{user_id.userDBmodeldata.last_name}}</p>
+                        {% if user_id.userDBmodeldata.category == "Student" %}
+                        <p>Roll Number: {{user_id.userDBmodeldata.rollnumber }}</p>
+                        {% else %}
+                        <p>Registration Number: {{user_id.userDBmodeldata.rollnumber }}</p>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
