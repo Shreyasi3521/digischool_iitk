@@ -101,9 +101,9 @@
             <div class="col-lg-8">
                 <p style="font-family: 'Trebuchet MS', sans-serif;">Enter your details here.</p>
                 <form style="font-family: 'Trebuchet MS', sans-serif;" name="loginform" action="/login/check/" method="post" onsubmit="final_login_validation();">{% csrf_token %}
-                    <input type="text"required="true" name="uname" placeholder="Email Address" onblur="email_validation();" size="25"><br>
+                    <input type="text"required="true" name="entered_email" placeholder="Email Address" onblur="email_validation();" size="25"><br>
                     <br>
-                    <input type="text" required="true" name="pswd" placeholder="Password" onblur="pass_validation();" size="25"><br>
+                    <input type="text" required="true" name="entered_password" placeholder="Password" onblur="pass_validation();" size="25"><br>
                     <br>
                     <input type="submit" class=" btn btn-defalut btn-info" value="Login">
                 </form>

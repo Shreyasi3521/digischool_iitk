@@ -99,44 +99,44 @@
                 <form style="font-family: 'Trebuchet MS', sans-serif;" name="signupform" action="/signup/status/" method="post" onsubmit="final_validation();">{% csrf_token %}
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text"  name="fn" placeholder="First Name" onblur="first_name_validation();" size="25" required="true">
+                            <input type="text"  name="first_name" placeholder="First Name" onblur="first_name_validation();" size="25" required="true">
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" name="ln" placeholder="Last Name" onblur="last_name_validation();" size="25" required="true">
+                            <input type="text" name="last_name" placeholder="Last Name" onblur="last_name_validation();" size="25" required="true">
                         </div>
                     </div>
                     <br>
                     
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" name="cl" placeholder="Class" onblur="class_validation();" size="25" required="true">
+                            <input type="text" name="user_class" placeholder="Class" onblur="class_validation();" size="25" required="true">
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" name="cs" placeholder="Section" onblur="section_validation();" size="25" required="true">
+                            <input type="text" name="user_section" placeholder="Section" onblur="section_validation();" size="25" required="true">
                         </div>
                     </div>
                     <br>
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" name="rn" placeholder="Roll Number/ Registration ID" onblur="rn_validation();" size="25" required="true">
+                            <input type="text" name="r_number" placeholder="Roll Number/ Registration ID" onblur="rn_validation();" size="25" required="true">
                             <p>(Registration ID in case of teacher.)</p>
                         </div>
                         <div class="col-lg-6">
-                            <input type="text" name="cd" placeholder="Contact Details" onblur="contact_validation();" size="25" required="true">
+                            <input type="text" name="contact_detail" placeholder="Contact Details" onblur="contact_validation();" size="25" required="true">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-lg-12">
-                            <input type="text" name="sn" placeholder="School" onblur="school_validation();" size="75" required="true">
+                            <input type="text" name="school_name" placeholder="School" onblur="school_validation();" size="75" required="true">
                         </div>
                     </div>
                     <br>
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="text" name="ea" placeholder="Email Address" onblur="email_validation();" size="25" required="true">
+                            <input type="text" name="email_address" placeholder="Email Address" onblur="email_validation();" size="25" required="true">
                         </div>
                         <div class="col-lg-6">
                             <input type="text" name="pswd" placeholder="Password" onblur="pass_validation();" size="25" required="true">
@@ -146,11 +146,11 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <input type="radio" id="student_status" name="category" value="Student" checked>
+                            <input type="radio" id="student_status" name="user_category" value="Student" checked>
                             <label for="student_status">Student</label>
                         </div>
                         <div class="col-lg-6">
-                            <input type="radio" id="teacher_status" name="category" value="Teacher">
+                            <input type="radio" id="teacher_status" name="user_category" value="Teacher">
                             <label for="teacher_status">Teacher</label>
                         </div>
                     </div>
