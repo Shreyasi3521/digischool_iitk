@@ -74,43 +74,54 @@
                 <p>Logout</p><br>
             </div>
             <div class ="col-lg-10 container">
+                {% if some_error %}
+                <script>alert("Some error occured. Try again!")</script>
+                {% endif }
                 {% if not_yet_upload %}
                 <div class="row">
                     <div class="col-lg-12" style="align-items: center;">
                         <form style="font-family: 'Trebuchet MS', sans-serif;" name="time_test" action="/test/" method="post">
-                            <input type="hidden" name="upload"> <!--do a security check here if this value is tempered.-->
+                            <select name="course_available">
+                                {% for course_each in user_courses %}
+                                    <option value="{{course_each.course_id}">{{ course_each.course_name }}</option>
+                                {% endfor %}
+                              </select>
+                            <input type="hidden" name="upload" value="yes"> <!--do a security check here if this value is tempered.-->
                             <input type="submit" class=" btn btn-defalut btn-info" value="Create A New Assignment or Test">
                         </form>
                     </div>
                 </div>
                 <!--All the previous assignments.-->
                 <p>Uploaded Assignment/Test</p>
-                {% for i in user_courses %}
-                    <p>{{ i.course_name}}</p>
-                    {% for t in user_tests.objects.filter(coursefkey=i} %}
-                        <p>{{t.title}}</p><span></span> <!--do some timer thing coming from end-date time, and if timer over then shows "over"-->
-                        <p>{{t.instructions}}</p>
-                        {% for n in t.files%}
-                            <p>{{ n.split()[-1]}}</p> <!--as t.files contains list of files as their pathnames and we only want file.-->
-                        {%endfor %}
+                {% for course_each in user_courses %}
+                    <p>{{ course_each.course_name}}</p>
+                    {% for test_each in course_each.all_tests_set.all() %}
+                        <p>{{test_each.test_title}}</p><span></span> <!--do some timer thing in this span, coming from end-date time, and if timer over then shows "over"-->
+                        <p>{{test_each.test_instruction}}</p>
+                        {% for file in test_each.files.split(" ") %}
+                            <p>{{ file }}</p>
+                        {% endfor %}
                     {% endfor %}
+                    <br>
                 {% endfor %}
-
+                
                 {% else %}
                 <div class="row">
                     <div class="col-lg-12">
-                        <form style="font-family:  'Trebuchet MS', sans-serif;" id="uploadform" name="time_test" action="/test/" method="post">{% csrf_token %}
-                            <input type="text" placeholder="Title" name="title" onblur="title_validation();" required="true"><br>
-                            <input type="text" placeholder="Instructions" name="instruct" onblur="instruction_validation();" required="true"><br>
-                            <label for id="startdate">Start Date:</label>
-                            <input type="date" id="startdate" name="startdate" required="true">
-                            <label for id="starttime">Start Time:</label>
-                            <input id="starttime" type="time" name="starttime" required="true"><br>
-                            <label for id="enddate">End Date:</label>
-                            <input type="date" id="enddate" name="enddate" required="true">
-                            <label for id="endtime">End Time:</label>
-                            <input id="endtime" type="time" name="endtime" required="true"><br>
-                            <input type="file" id="selectedfiles" placeholder="Upload files (if any)" name="files" multiple onchange="printfiles();"><br>
+                        <!--need do all jscript onblur functions.-->
+                        <form style="font-family:  'Trebuchet MS', sans-serif;" id="uploadform" name="time_test" action="/test/upload/" method="post">{% csrf_token %}
+                            <input type="hidden" name="selected_course" value="{{ test_upload_for_course }}">
+                            <input type="text" placeholder="Title" name="test_title" onblur="title_validation();" required="true"><br>
+                            <input type="text" placeholder="Instructions" name="test_instruct" onblur="instruction_validation();" required="true"><br>
+                            <label for id="start_date">Start Date:</label>
+                            <input type="date" id="start_date" name="start_date" required="true">
+                            <label for id="start_time">Start Time:</label>
+                            <input id="start_time" type="time" name="start_time" required="true"><br>
+                            <label for id="end_date">End Date:</label>
+                            <input type="date" id="end_date" name="end_date" required="true">
+                            <label for id="end_time">End Time:</label> <!--add "pattern" attribute in all the above date and time inputs. date pattern must be yyyy-mm-dd and time pattern is 24 hr clock hh:mm-->
+                            <input id="end_time" type="time" name="end_time" required="true"><br>
+                            <input type="file" id="selectedfiles" placeholder="Upload files (if any)" name="test_files" multiple onchange="printfiles();"><br><!--add a attribute of only allowed file types.-->
                             <p id="filesplaceholder"></p>
                             <script>
                             function printfiles(){
