@@ -14,5 +14,5 @@ class AVAILABLE_COURSES(models.Model):
 	test_series_number = models.IntegerField(default=0) # Same.
 
 class CLASS_COURSES_MAPPING(models.Model):
-	unique_id = models.CharField(max_length=CLS_COURSE_MAPPING_UNIQUE_ID_LENGTH)
+	unique_id = models.CharField(max_length=CLS_COURSE_MAPPING_UNIQUE_ID_LENGTH) # format "class:section:offeringyear"
 	course_id_array = models.CharField(max_length=COURSE_ID_ARRAY_MAX_LENGTH) # an array represented as string, where, each element is a course_id which is nothing but courseapp.AVALIABLE_COURSES course_id.

@@ -11,7 +11,8 @@ from profileapp import models as profile_models
 # importing security modules.
 from django.middleware import csrf
 import bcrypt
-from loginapp import validation_check, backend_handling_functions
+from loginapp import validation_check
+from backend_functions import backend_handling_functions
 
 def homePage(request):
 	if request.POST:
@@ -79,7 +80,7 @@ def signUpPosted(request):
 		user_class = "0" + user_class
 
 	# backend database working
-	class_course_field = backend_handling_functions.auto_assign_course(user_class, user_section)
+	class_course_field = backend_handling_functions.auto_assign_course(user_class, user_section, user_category)
 
 	"""----------password encryption.---------------"""
 	# password hashing and salting to be done here.
@@ -97,7 +98,8 @@ def signUpPosted(request):
 		setting_user.save()
 		setting_profile = profile_models.USER_PROFILE_DATABASE(userDBmodeldata = setting_user)
 		setting_profile.save()
-
+		if setting_user.user_category == "TEACHER":
+			backend_handling_functions.course_instructor_assigning(setting_user)
 	except:
 		"""----------Some error while setting user.---------------"""
 		return render(request, 'signup_page.html', {"csrf_token":csrf_token , "error_signing" : True, "user_exist": False})
@@ -178,14 +180,15 @@ def loginPageCheck(request):
 		"""----------password encryption.---------------"""
 		# password hashing and salting to be done here.
 
-		extracted_user = login_models.UserDB.objects.filter(email_addr=enter_user_name)
+		extracted_user = login_models.UserDB.objects.filter(email_addr=enter_user_name)[0]
 		
-		if extracted_user[0].password == enter_password:
+		if extracted_user.password == enter_password:
 			Authentication = True
 
 		if Authentication:
 			# FOr the login we directly send the page. however in case of other time (when section is active.) we will use session id and use the profileApp's viewfunctions.
-			return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/profile/{str(extracted_user[0].id)}/"'/></body>''')
+			request.session['user_id'] = extracted_user.id
+			return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/profile/"'/></body>''')
 		else:
 			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : False, "user_not_exist": False, "invalid_password": True})
 	return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : True, "user_not_exist": False, "invalid_password":False})

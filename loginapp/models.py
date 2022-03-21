@@ -1,5 +1,5 @@
 from django.db import models
-from digischool import univeral_values as *
+import backend_functions.universal_values
 from courseapp import models as course_models
 
 
@@ -20,7 +20,7 @@ class USER_SIGNUP_DATABASE(models.Model):
 	password = models.CharField(max_length=PASSWORD_LENGTH["length_range"][1])
 	
 	# backend handled.
-	class_course_field = models.OneToOneField(course_models.CLASS_COURSES_MAPPING)
+	class_course_field = models.OneToOneField(course_models.CLASS_COURSES_MAPPING) # for teachers it will be "None"
 
 class QUERY_DATABASE(models.Model):
 	query_date_time = models.DateTimeField(auto_now_add=True)

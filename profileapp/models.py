@@ -1,6 +1,6 @@
 from django.db import models
 from loginapp import models as login_models
-from digischool import univeral_values as *
+from backend_functions import *
 
 class USER_PROFILE_DATABASE(models.Model):
 	user_signup_db_mapping = models.OneToOneField(login_models.USER_SIGNUP_DATABASE, on_delete=models.CASCADE)
