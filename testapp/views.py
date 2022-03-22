@@ -172,7 +172,6 @@ def eachTestView(request, given_unique_id):
 							autheticated = True
 							selected_test = t
 							break
-
 				if autheticated:
 					return render(request, "each_test_view_page.html", {"csrf_token": csrf_token, "user_category":"TEACHER", "test_view":selected_test, "error_occured":False})
 				else:

@@ -1,6 +1,6 @@
 from django.db import models
-import backend_functions.universal_values
-from courseapp import models as course_models
+from backend_functions.universal_values import *
+from courseapp.models import *
 
 
 class USER_SIGNUP_DATABASE(models.Model):
@@ -20,7 +20,7 @@ class USER_SIGNUP_DATABASE(models.Model):
 	password = models.CharField(max_length=PASSWORD_LENGTH["length_range"][1])
 	
 	# backend handled.
-	class_course_field = models.OneToOneField(course_models.CLASS_COURSES_MAPPING) # for teachers it will be "None"
+	class_course_field = models.OneToOneField(CLASS_COURSES_MAPPING, on_delete=models.CASCADE) # for teachers it will be "None"
 
 class QUERY_DATABASE(models.Model):
 	query_date_time = models.DateTimeField(auto_now_add=True)
