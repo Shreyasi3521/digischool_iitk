@@ -1,4 +1,5 @@
 import datetime
+import os
 
 NAME_LIMIT = 40
 USER_CLASS = {"class_length": [1, 2], "class_range":[1, 12], "section_length": 1, "values":["A", "B", "C","D","E", "F"]}
@@ -30,3 +31,8 @@ TEST_INSTRUCTION_LENGTH = 100
 TEST_UNIQUE_ID = COURSE_ID_LENGTH + 2
 FILES_ALLOWED = 10
 FILES_STRING_MAX_LENGTH = FILES_ALLOWED * 25
+
+
+OTP_LENGTH = 8
+EMAIL_ADDRESS = os.environ.get("EMAIL_USER")
+EMAIL_PASSWORD = os.environ.get("EMAIL_PASS")
