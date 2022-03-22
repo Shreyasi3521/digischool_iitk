@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | digiSchool</title>
+    <script src="formValidation.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
+    <style>
+        .logo {
+            border-radius: 60%;
+            border: 4px solid;
+            width: 80px;
+            height: auto;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+        .tophead {
+            margin-top: 2px;
+            background-image: url("bg_logo.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .slider {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .slide {
+        width: 100%;
+        flex-shrink: 0;
+        height: 100%;
+        }
+        .homeicon {
+            width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    {% if error_login %}
+    <script>alert("There was an error while login!! Retry after few minutes.  If the issue persist, please reach us at 'contact us' page.")</script>
+    {% endif %}
+    {% if user_not_exist %}
+    <script>alert("User does already exist! Please signup first.")</script>
+    <meta http-equiv="refresh" content="0; url='/signup/'">
+    {% endif %}-->
+    {% if invalid_password %}
+    <script>alert("Username and/or Password is incorrect")</script>
+    {% endif %}
+
+    <div class="container-fluid">
+        <div class="row tophead">
+            <div class="col-sm-10">
+                <img class="logo" src="logo_cright.jpg" alt="digiSchool">
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Home</a>
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/contact/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Contact Us</a>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="scroller" style="text-align:center">
+                    <a href="#slide-1"><i class="fa-regular fa-circle"></i></a><p style="display: inline;">&nbsp;&nbsp;</p>
+                    <a href="#slide-2"><i class="fa-regular fa-circle"></i></a><p style="display: inline;">&nbsp;&nbsp;</p>
+                    <a href="#slide-3"><i class="fa-regular fa-circle"></i></a><p style="display: inline;">&nbsp;&nbsp;</p>
+                </div>
+                <div class="slider">
+                    <div class="slide" id="slide-1">
+                        <br>
+                        <img class="homeicon" src="comments-regular.svg"><br>
+                        <p style="text-align:center">Studies says that, when you communicate with your co-students, you understand the topic way better. So why not!! Go to <span style="font-weight: bold;">Form</span> tab and start communicating.</p>
+                    </div>
+                    <div class="slide" id="slide-2">
+                        <br>
+                        <img class="homeicon" src="building-columns-solid.svg"><br>
+                        <p style="text-align:center">You can look for pending and future assignments and tests in the <span style="font-weight: bold;">Test</span> tab.</span><br>Don't worry, we will hide some for you <span style="font-style: italic;">(shhhhhhhh...)</span></p>
+                    </div>
+                    <div class="slide" id="slide-3">
+                        <br>
+                        <img class="homeicon" src="arrow-trend-up-solid.svg"><br>
+                        <p style="text-align:center">Want to know, <span style="font-style:italic">"how you doin! ;)"</span> in your subjects. Then go to the <span style="font-style: italic; font-weight: bold;">Profile</span> tab. And check out your subject's statistics.</p>
+                    </div>
+                </div>
+                <p style="display: inline;">New user?&nbsp;</p><a href="/signup/">Signup</a>
+            </div>
+            <div class="col-lg-8">
+                <p style="font-family: 'Trebuchet MS', sans-serif;">Enter your details here.</p>
+                <form style="font-family: 'Trebuchet MS', sans-serif;" name="loginform" action="/login/check/" method="post" onsubmit="final_login_validation();">{% csrf_token %}
+                    <input type="text"required="true" name="entered_email" placeholder="Email Address" onblur="email_validation();" size="25"><br>
+                    <br>
+                    <input type="text" required="true" name="entered_password" placeholder="Password" onblur="pass_validation();" size="25"><br>
+                    <br>
+                    <input type="submit" class=" btn btn-defalut btn-info" value="Login">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

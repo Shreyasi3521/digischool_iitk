@@ -1,51 +1,74 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up | digiSchool</title>
-    <script src="formValidation.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
-    <style>
-        .logo {
-            border-radius: 60%;
-            border: 4px solid;
-            width: 80px;
-            height: auto;
-            margin-top: 6px;
-            margin-bottom: 6px;
-        }
-        .tophead {
-            margin-top: 2px;
-            background-image: url("bg_logo.png");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
 
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+
     <div class="container-fluid">
-        <div class="row tophead">
-            <div class="col-sm-10">
-                <img class="logo" src="logo_cright.jpg" alt="digiSchool">
+        <div class="parent">
+
+            <div class="row">
+                <div class="col-lg-10">
+                <a href="/"><img class="logo" src="logo_cright.jpg" alt="digiSchool"></a>
+                </div>
+                <div class="col-lg-1 right-nav 1">
+                    <br>
+                    <a href="/" style="font-size:1.2em; font-family: 'Trebuchet MS', sans-serif;">Home</a>
+                </div>
+                <div class="col-lg-1 right-nav 2">
+                    <br>
+                    <a href="/contact/" style="font-size:1.2em; font-family: 'Trebuchet MS', sans-serif;">Contact Us</a>
+                </div>
             </div>
-            <div class="col-lg-1">
-                <br>
-                <a href="/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Home</a>
+
+            <div class="xyz">
+             <div class="wrapper">
+                 <p style="font-family: 'Trebuchet MS', sans-serif; text-align: center">The user is successfully created. You can now <a href="/login/" style="font-family: 'Trebuchet MS', sans-serif;">login</a> to your account.</p>
+             </div>
             </div>
-            <div class="col-lg-1">
-                <br>
-                <a href="/contact/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Contact Us</a>
+
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <img class="homeicon" src="comments-regular.svg"><br>
+                        <p style="text-align:center">DigiSchool is built with the motives to have an enthusiastic<br>engagment between students and teachers.<br><br> And an ease environment for better education.</p>
+                </div>
+                
+                <div class="mySlides fade">
+                    <img class="homeicon" src="building-columns-solid.svg"><br>
+                        <p style="text-align:center">A one <span style="font-style: italic;">stop platform</span> for all the educational needs.<br><br>From lectures to assignments/test to students interaction</p>
+                </div>
+                
+                <div class="mySlides fade">
+                    <img class="homeicon" src="arrow-trend-up-solid.svg"><br>
+                  <p style="text-align:center">DigiSchool comes with <span style="font-style: italic; font-weight: bold;">student analytics</span>, which helps them and their parents<br> to better understand about their grasp on the courses.</p>
+                </div>
             </div>
+            <br>
+            
+            <div style="text-align:center">
+              <span class="dot"></span> 
+              <span class="dot"></span> 
+              <span class="dot"></span> 
+            </div>
+
+           
         </div>
-        <br>
+
+        <script src="main.js"></script>
     </div>
-    <p style="font-family: 'Trebuchet MS', sans-serif; text-align: center">The user is successfully created. You can now <a href="/login/" style="font-family: 'Trebuchet MS', sans-serif;">login</a> to your account.</p>
-    
 </body>
 </html>
+

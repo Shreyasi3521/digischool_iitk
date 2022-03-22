@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | digiSchool</title>
+    <script src="formValidation.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
+    <style>
+        .logo {
+            border-radius: 60%;
+            border: 4px solid;
+            width: 80px;
+            height: auto;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+        .tophead {
+            margin-top: 2px;
+            background-image: url("bg_logo.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .slider {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .slide {
+        width: 100%;
+        flex-shrink: 0;
+        height: 100%;
+        }
+        .homeicon {
+            width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    {% if error_signing %}
+    <script>alert("There was an error while submission!! Retry after few minutes. If the issue persist, please reach us at 'contact us' page.")</script>
+    {% endif %}
+    {% if user_exist %}
+    <script>alert("User already exist! Please login.")</script>
+    <meta http-equiv="refresh" content="0; url='/login/'">
+    {% endif %}
+    <div class="container-fluid">
+        <div class="row tophead">
+            <div class="col-sm-10">
+                <img class="logo" src="logo_cright.jpg" alt="digiSchool">
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Home</a>
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/contact/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Contact Us</a>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="scroller" style="text-align:center">
+                    <a href="#slide-1"><i class="fa-regular fa-circle"></i></a><p style="display: inline;">&nbsp;&nbsp;</p>
+                    <a href="#slide-2"><i class="fa-regular fa-circle"></i></a><p style="display: inline;">&nbsp;&nbsp;</p>
+                    <a href="#slide-3"><i class="fa-regular fa-circle"></i></a><p style="display: inline;">&nbsp;&nbsp;</p>
+                </div>
+                <div class="slider">
+                    <div class="slide" id="slide-1">
+                        <br>
+                        <img class="homeicon" src="comments-regular.svg"><br>
+                        <p style="text-align:center">DigiSchool is built with the motives to have an enthusiastic<br>engagment between students and teachers.<br><br> And an ease environment for better education.</p>
+                    </div>
+                    <div class="slide" id="slide-2">
+                        <br>
+                        <img class="homeicon" src="building-columns-solid.svg"><br>
+                        <p style="text-align:center">A one <span style="font-style: italic;">stop platform</span> for all the educational needs.<br><br>From lectures to assignments/test to students interaction</p>
+                    </div>
+                    <div class="slide" id="slide-3">
+                        <br>
+                        <img class="homeicon" src="arrow-trend-up-solid.svg"><br>
+                        <p style="text-align:center">DigiSchool comes with <span style="font-style: italic; font-weight: bold;">student analytics</span>, which helps them and their parents<br> to better understand about their grasp on the courses.</p>
+                    </div>
+                </div>
+                <p style="display: inline;">Already a user?&nbsp;</p><a href="/login">Login</a> <!--need to move this out from this row and place down to new row!! (do the same for all files containing same format.)-->
+            </div>
+            <div class="col-lg-8">
+                <p style="font-family: 'Trebuchet MS', sans-serif;">Enter your registration details here.</p>
+                <form style="font-family: 'Trebuchet MS', sans-serif;" name="signupform" action="/signup/status/" method="post" onsubmit="final_validation();">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text"  name="first_name" placeholder="First Name" onblur="first_name_validation();" size="25" required="true">
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" name="last_name" placeholder="Last Name" onblur="last_name_validation();" size="25" required="true">
+                        </div>
+                    </div>
+                    <br>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" name="user_class" placeholder="Class" onblur="class_validation();" size="25" required="true">
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" name="user_section" placeholder="Section" onblur="section_validation();" size="25" required="true">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" name="r_number" placeholder="Roll Number/ Registration ID" onblur="rn_validation();" size="25" required="true">
+                            <p>(Registration ID in case of teacher.)</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" name="contact_detail" placeholder="Contact Details" onblur="contact_validation();" size="25" required="true">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="text" name="school_name" placeholder="School" onblur="school_validation();" size="75" required="true">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" name="email_address" placeholder="Email Address" onblur="email_validation();" size="25" required="true">
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" name="pswd" placeholder="Password" onblur="pass_validation();" size="25" required="true">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="radio" id="student_status" name="user_category" value="Student" checked>
+                            <label for="student_status">Student</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="radio" id="teacher_status" name="user_category" value="Teacher">
+                            <label for="teacher_status">Teacher</label>
+                        </div>
+                    </div>
+                    <br>
+                    <input type="submit" class=" btn btn-defalut btn-info" value="Create">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
