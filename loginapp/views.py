@@ -72,6 +72,9 @@ def signUpPosted(request):
 
 	"""----------Now all the input values are valid.---------------"""
 
+	"""otp handling to be done"""
+
+
 	# data formatting.
 	first_name = first_name[0].upper() + first_name[1:]
 	last_name = last_name[0].upper() + last_name[1:]

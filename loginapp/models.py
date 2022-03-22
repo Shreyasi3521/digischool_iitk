@@ -29,3 +29,8 @@ class QUERY_DATABASE(models.Model):
 
 	# backend handled.
 	query_resolved = models.BooleanField(default=False)
+
+class OTP_DATABASE(models.Model):
+	assigned_email = models.EmailField()
+	assigned_OTP = models.CharField(max_length=OTP_LENGTH)
+	assigned_time = models.DateTimeField(auto_now_add=True)
