@@ -172,7 +172,7 @@ def loginPageCheck(request):
 			# hadling tempered data.
 			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : True, "user_not_exist": False, "invalid_password":False})
 
-		if len(login_models.UserDB.objects.filter(email_address=enter_user_name)) == 0:
+		if len(login_models.USER_SIGNUP_DATABASE.objects.filter(email_address=enter_user_name)) == 0:
 			# User does not exist.
 			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : False, "user_not_exist": True, "invalid_password":False})
 		
@@ -180,7 +180,7 @@ def loginPageCheck(request):
 		"""----------password encryption.---------------"""
 		# password hashing and salting to be done here.
 
-		extracted_user = login_models.UserDB.objects.filter(email_addr=enter_user_name)[0]
+		extracted_user = login_models.USER_SIGNUP_DATABASE.objects.filter(email_addr=enter_user_name)[0]
 		
 		if extracted_user.password == enter_password:
 			Authentication = True

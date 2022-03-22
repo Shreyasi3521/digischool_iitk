@@ -1,9 +1,9 @@
 from courseapp import models as course_models
-from backend_functions.univeral_values import OFFERING_YEAR
+from . import universal_values
 
 def auto_assign_course(user_cls, user_sec, user_category):
 	if user_category == "STUDENT":
-		unique_id = user_cls + user_sec + str(OFFERING_YEAR)
+		unique_id = user_cls + user_sec + str(universal_values.OFFERING_YEAR)
 		class_course_mapping_entry = course_models.CLASS_COURSES_MAPPING.objects.filter(unique_id=unique_id)[0]
 		return class_course_mapping_entry
 	if user_category == "TEACHER":

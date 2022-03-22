@@ -29,7 +29,7 @@ urlpatterns = [
     path("contact/submit/", login_views.contactPageSubmitted),
     path("profile/", profile_views.profilePage),
     path("test/", test_views.testPage),
-    path("/test/view/<int:unique_id", test_views.eachTestView)
-    path("test/upload/", test_views.testUploaded)
+    path("test/view/<int:unique_id", test_views.eachTestView),
+    path("test/upload/", test_views.testUploaded),
     path("", login_views.homePage) # keep this in last.
 ]
