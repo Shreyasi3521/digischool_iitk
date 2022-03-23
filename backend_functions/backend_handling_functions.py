@@ -7,7 +7,7 @@ def auto_assign_course(user_cls, user_sec, user_category):
 		class_course_mapping_entry = course_models.CLASS_COURSES_MAPPING.objects.filter(unique_id=unique_id)[0]
 		return class_course_mapping_entry
 	if user_category == "TEACHER":
-		
+		# maybe create a null entry.
 		return None
 
 def course_instructor_assigning(teacher_entry):

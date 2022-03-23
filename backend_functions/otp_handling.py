@@ -1,6 +1,6 @@
 from random import randrange # more strong random value generator is required.
 from backend_functions.universal_values import *
-from loginapp.models import OTP_DATABASE
+from loginapp.models import OTP_DATABASE, TEACHER_CODE_MAPPING
 import smtplib
 import os
 
@@ -37,17 +37,23 @@ def send_mail(to_email, OTP_value):
 	except:
 		return False
 
-def check_otp(email, received_otp):
-	hashed_otp = OTP_DATABASE.objects.filter(assigned_email=email)
+def check_otp(email, received_otp, user_category):
+	if user_category == "STUDENT":
+		hashed_otp = OTP_DATABASE.objects.filter(assigned_email=email)
+	else:
+		hashed_otp = TEACHER_CODE_MAPPING.objects.filter(teacher_email=to_email)[0].teacher_unique_code
 	if !(len(hashed_otp) > 0):
 		return False
 	return hashed_otp[0].assigned_otp == hash(received_otp)
 
-def otp_sending_handling(to_email):
-	otp = otp_generate()
+def otp_sending_handling(to_email, user_category):
+	if user_category == "STUDENT":
+		otp = otp_generate()
+	else:
+		otp = TEACHER_CODE_MAPPING.objects.filter(teacher_email=to_email)[0].teacher_unique_code
 	status_email = send_mail(to_email, otp)
 	return status_email
 
-def otp_receiving_handling(to_email, received_otp):
-	return check_otp(to_email, received_otp)
+def otp_receiving_handling(to_email, received_otp, user_category):
+	return check_otp(to_email, received_otp, user_category)
 
