@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | digiSchool</title>
+    <script src="formValidation.js"></script>
+    <script src="uploadmValidation.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
+    <style>
+        .logo {
+            border-radius: 60%;
+            border: 4px solid;
+            width: 80px;
+            height: auto;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+        .tophead {
+            margin-top: 2px;
+            background-image: url("bg_logo.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .slider {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .slide {
+        width: 100%;
+        flex-shrink: 0;
+        height: 100%;
+        }
+        .homeicon {
+            width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+           
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row tophead">
+            <div class="col-sm-10">
+                <img class="logo" src="logo_cright.jpg" alt="digiSchool">
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Home</a>
+            </div>
+            <div class="col-lg-1">
+                <br>
+                <a href="/contact/" style="font-size:large; font-family: 'Trebuchet MS', sans-serif;">Contact Us</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class = "col-lg-2">
+                <p>Profile</p><br>
+                <p>Lectures</p><br>
+                <p>Test</p><br>
+                <p>Forums</p><br>
+                <p>Logout</p><br>
+            </div>
+            <div class ="col-lg-10 container">
+                {% if some_error %}
+                <script>alert("Some error occured. Try again!")</script>
+                {% endif %}
+                
+                {% if not_yet_upload %}
+                <div class="row">
+                    <div class="col-lg-12" style="align-items: center;">
+                        <form style="font-family: 'Trebuchet MS', sans-serif;" name="time_test" action="/lecture/upload/" method="post">
+                            <select name="course_available">
+                                {% for course_each in user_courses %}
+                                    <option value="{{course_each.course_id}">{{ course_each.course_name }}</option>
+                                {% endfor %}
+                              </select>
+                            <input type="hidden" name="upload" value="yes"> <!--do a security check here if this value is tempered.-->
+                            <input type="submit" class=" btn btn-defalut btn-info" value="Create A New Assignment or Test">
+                        </form>
+                    </div>
+                </div>
+                <!--All the previous assignments.-->
+                <p>Uploaded Assignment/Test</p>
+                {% for course_each in user_courses %}
+                <div class="row">
+                    <p>{{ course_each.course_name}}</p>
+                    {% for test_each in course_each.all_tests_set.all() %}
+                        <p>{{test_each.test_title}}</p><span></span> <!--do some timer thing in this span, coming from end-date time, and if timer over then shows "over"-->
+                        <form action="/test/view/{{test_each.test_unique_id}}" method="get">
+                            <input type="submit" class=" btn btn-defalut btn-info" value="view">
+                        </form>
+                    {% endfor %}
+                    <br>
+                </div>
+                {% endfor %}
+                
+                {% else %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!--need do all jscript onblur functions.-->
+                        <form style="font-family:  'Trebuchet MS', sans-serif;" id="uploadform" name="time_test" action="/test/upload/" method="post">{% csrf_token %}
+                            <input type="hidden" name="selected_course" value="{{ test_upload_for_course }}">
+                            <input type="text" placeholder="Title" name="test_title" onblur="title_validation();" required="true"><br>
+                            <input type="text" placeholder="Instructions" name="test_instruct" onblur="instruction_validation();" required="true"><br>
+                            <label for id="start_date">Start Date:</label>
+                            <input type="date" id="start_date" name="start_date" required="true">
+                            <label for id="start_time">Start Time:</label>
+                            <input id="start_time" type="time" name="start_time" required="true"><br>
+                            <label for id="end_date">End Date:</label>
+                            <input type="date" id="end_date" name="end_date" required="true">
+                            <label for id="end_time">End Time:</label> <!--add "pattern" attribute in all the above date and time inputs. date pattern must be yyyy-mm-dd and time pattern is 24 hr clock hh:mm-->
+                            <input id="end_time" type="time" name="end_time" required="true"><br>
+                            <input type="file" id="selectedfiles" placeholder="Upload files (if any)" name="test_files" multiple onchange="printfiles();"><br><!--add a attribute of only allowed file types.-->
+                            <p id="filesplaceholder"></p>
+                            <script>
+                            function printfiles(){
+                                var x = document.getElementById("selectedfiles");
+                                console.log("ran")
+                                var output = "Uploaded files,<br>";
+                                if ('files' in x) {
+                                    if (x.files.length == 0) {
+                                        output = "Select one or more files.";
+                                    } else {
+                                    for (var i = 0; i < x.files.length; i++) {
+                                        var file = x.files[i];
+                                        if ('name' in file) {
+                                            output += file.name + "<br>";
+                                        }
+                                    }
+                                    }
+                                }
+                                else {
+                                    x.setAttribute(value="None") //to check if it is correct or not
+                                    output += "Either no files were uploaded or Some files types are not supported.";
+                                    output  += "<br>The path of the selected file: " + x.value;
+                                }
+                                document.getElementById("filesplaceholder").innerHTML = output;
+                            }
+                            </script>
+                            <input type="submit" class=" btn btn-defalut btn-info" value="Create">
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<!--test-->
+<!DOCTYPE html>
+<head></head>
+<body>
+    <form action="/lecture/" method="POST" enctype="multipart/form-data" name="upload_form">{% csrf_token %}
+        <div id="upload-button" class="button">Upload Video</div>
+        <div id="upload-input">
+          <input id="video_file" name="video_file" type="file" multiple>
+          <input type="submit" value="up">
+        </div>
+      </form>
+</body>
+<!--test->
+

@@ -20,7 +20,8 @@
 
 
     {% if error_signing %}
-    <script>alert("There was an error while submission!! Retry after few minutes. If the issue persist, please reach us at 'contact us' page.")</script>
+    <script>alert("There was an error while submission!! Either due to some invalid fields or due to server error. Retry after few minutes. If the issue persist, please reach us at 'contact us' page.")</script>
+    <meta http-equiv="refresh" content="0; url='/signup/'">
     {% endif %}
 
     {% if user_exist %}
@@ -71,7 +72,7 @@
 
            <div class="xyz">
              <div class="wrapper">
-                 <form class="form" name="signupform" action="/signup/status/" method="post" onsubmit="final_validation();">{csrf_token}
+                 <form class="form" name="signupform" action="/signup/status/" method="post" onsubmit="final_validation();">{% csrf_token %}
                     <div class="signup">
                         <div class="form-group">
                             <input type="text"  name="first_name" placeholder="First Name" onblur="first_name_validation();" required="true">

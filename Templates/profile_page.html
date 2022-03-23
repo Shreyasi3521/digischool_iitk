@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="homepage.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   </head>
+<body>
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo"></div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links">
+
+        <!-- NAVIGATION MENUS -->
+        <div class="menu">
+        <li><a href="homepage.html">Home</a></li>
+        <li class="services">
+        <a  class="profile-top" href="homepage.html"><img src="profile_photo.jpg" alt="Profile" style="width:48px;height:48px;"> </a>
+        
+        <!-- DROPDOWN MENU -->
+        <ul class="dropdown">
+        <li><button id="edit-profile">Edit profile</button></li>
+        <li><button id="change-password">Change password</button></li>
+        <li><a class="logout" href="index.html">Log out</a></li>
+
+        </ul>
+        </li>
+ 
+        </div>
+
+        </ul>
+
+        </nav>
+
+
+
+        <!-- side  NAVIGATION MENUS -->
+  <div class="sidebar">
+    <div class="logo-details">
+        <div class="logo_name">Dashboard</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+       <a href="/profile/">
+        <i class='bx bxs-home'></i>
+         <span class="links_name">Profile Page</span>
+       </a>
+       <span class="tooltip">Profile Page</span>
+     </li>
+     <li>
+       <a href="/lecture/">
+        <i class='bx bxs-book-open'></i>
+        
+         <span class="links_name">Lectures</span>
+       </a>
+       <span class="tooltip">Lectures</span>
+     </li>
+     <li>
+       <a href="/test/">
+        <i class='bx bx-question-mark'></i>
+         <span class="links_name">Tests</span>
+       </a>
+       <span class="tooltip">Tests</span>
+     </li>
+     <!--<li>
+       <a href="#">
+        <i class='bx bxs-report'></i>
+         <span class="links_name">Progress Report</span>
+       </a>
+       <span class="tooltip">Progress resport</span>
+     </li>-->
+     <li>
+       <a href="/forum/">
+        <i class='bx bxs-comment-detail' ></i>
+         <span class="links_name">Forum</span>
+       </a>
+       <span class="tooltip">Forum</span>
+     </li>
+     <li>
+       <a href="/contact/">
+        <i class='bx bx-chat' ></i>
+         <span class="links_name">Contact Us</span>
+       </a>
+       <span class="tooltip">Contact Us</span>
+     </li>
+     <li>
+       <a href="/exit/">
+        <i class='bx bx-exit'></i>
+         <span class="links_name">Logout</span>
+       </a>
+       <span class="tooltip">Logout</span>
+     </li>
+     
+    </ul>
+  </div>
+
+
+  
+        <!-- Student profile in home page with photo and details -->
+  <div class="main">
+
+      <section class="profile-section"> 
+        <table class="details-table" >
+            <tr style= " text-align: left;">
+              <th style="width:30%"><a  class="profile-bot" ><img src="profile_photo.jpg" alt="Profile" style="width:200px;height:200px;; border-radius:50%;"> </a>
+                <br><form style="margin-left: 10%;margin-right: 10%;"action="/profile/edit/" method="get"><button type="submit"  class="btn btn-info">Edit Profile</button></form>
+                </th>
+              <th>
+                
+
+                <table>
+                    <tr>
+                    <th class="profile-data" style="width:50%"><a >Name : </a></th>
+                    <th class= "profile-data student-name" style="width:30%"><a >{{user_data.user_signup_db_mapping.first_name}} {{user_data.user_signup_db_mapping.last_name}}</a></th>
+                    </tr>
+                    <tr>
+                        {% if user_id.userDBmodeldata.category == "STUDENT" %}
+                        <th class="profile-data" style="width:50%">Roll Number :</th>
+                        {% else %}
+                        <th class="profile-data" style="width:50%">Registration Number :</th>
+                        {% endif %}
+                        <th class="profile-data student-roll-number" style="width:10%"><a>{{user_data.user_signup_db_mapping.r_number}}</a></th>
+                        </tr>
+                    <tr>
+                    <th class="profile-data" style="width:50%">Class :</th>
+                    <th class="profile-data student-class" style="width:10%"><a >{{user_data.user_signup_db_mapping.user_class}} {{user_data.user_signup_db_mapping.user_section}}</a></th>
+                    </tr>
+                    <tr>
+                        <th class="profile-data" style="width:30%">School :</th>
+                        <th class="profile-data student-school" style="width:10%"><a >{{user_data.user_signup_db_mapping.school_name}}</a></th>
+                        </tr>
+                </table>
+            </tr>
+          </table>
+      </section>
+
+
+    <!-- Student profile ranks -->
+      <section>
+          <div class="ranks">
+            <table>
+                <tr>
+                    <th class= "profile-rank" style="width:0%"><div class="class-rank">
+                        <h3>Class Rank</h3>
+                        <h1>122</h1>
+                    </div></th>
+                    <th class= "profile-rank" style="width:0%"><div class="school-rank">
+                        <h3>School Rank</h3>
+                        <h1>5567</h1>
+                    </div></th>
+                <th class= "profile-rank" style="width:0%"><div class="city-rank">
+                        <h3>City Rank</h3>
+                        <h1>55607</h1>
+                    </div></th>
+                    <th class= "profile-rank" style="width:0%"><div class="state-rank">
+                        <h3>State Rank</h3>
+                        <h1>55670</h1>
+                    </div></th>
+                </tr>
+            </table>
+            
+
+          </div>
+
+
+    <!-- Student performance   -->
+
+      </section>
+      <section class="performance"> 
+        <div class="performance-graph">
+            <br>
+            <h1>Student Performance</h1> 
+            <a class="performance-picture"><img src="student_performance.png" alt="Profile" style="width:40%;height:30%;"> </a>
+      
+        </div>
+      </section>
+  </div>
+
+
+
+
+  <script src="homepage.js"></script>
+</body>
+</html>

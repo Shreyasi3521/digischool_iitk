@@ -3,7 +3,29 @@
 <html lang="en">
 <head>
     <title>Login | digiSchool</title>
-
+    <style>
+        .userInput{
+	        display: flex;
+	        justify-content: center;
+        }
+        input{
+            margin: 10px;
+            height: 35px;
+            width: 65px;
+            border-radius: 5px;
+            text-align: center;
+            font-family: arimo;
+            font-size: 1.2rem;
+            background: #eef2f3;
+        }
+    </style>
+    <script>
+        function clickEvent(first,last){
+			if(first.value.length){
+				document.getElementById(last).focus();
+			}
+		}
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -19,7 +41,7 @@
 <body>
 
 
-    {% if error_login %}
+    <!--{% if error_login %}
     <script>alert("There was an error while login!! Retry after few minutes. If the issue persist, please reach us at 'contact us' page.")</script>
     <meta http-equiv="refresh" content="0; url='/login/'">
     {% endif %}
@@ -30,7 +52,7 @@
     {% if invalid_password %}
     <script>alert("Username and/or Password is incorrect")</script>
     <meta http-equiv="refresh" content="0; url='/login/'">
-    {% endif %}
+    {% endif %}-->
 
 
     <div class="container-fluid">
@@ -74,25 +96,22 @@
 
             <div class="xyz">
                 <div class="wrapper">
-                    <form class="form" name="loginform" action="/login/check/" method="post" onsubmit="final_login_validation();">{% csrf_token %}
-                        <div class="signin"> 
+                    <form class="form" name="loginform" action="/login/check/" method="post" onsubmit="otp_validation();">{% csrf_token %}
+                        <div class="signin">
                             <div class="form-group">
-                                <input type="email" required="true" name="entered_email" placeholder="Email Address" onblur="email_validation();">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" required="true" name="entered_password" placeholder="Password" onblur="pass_validation();">
-                            </div>
-                            <div class="forget-password">
-                                <div class="check-box">
-                                    <input type="checkbox" id="checkbox">
-                                    <label for="checkbox">Remember me</label>
+                                <div class="userInput">
+                                    <input type="text" id='1' maxlength="1" onkeyup="clickEvent(this,'2')">
+                                    <input type="text" id="2" maxlength="1" onkeyup="clickEvent(this,'3')">
+                                    <input type="text" id="3" maxlength="1" onkeyup="clickEvent(this,'4')">
+                                    <input type="text" id="4" maxlength="1" onkeyup="clickEvent(this,'5')">
+                                    <input type="text" id="5" maxlength="1" onkeyup="clickEvent(this,'6')">
+                                    <input type="text" id="6" maxlength="1" onkeyup="clickEvent(this,'7')">
+                                    <input type="text" id="7" maxlength="1" onkeyup="clickEvent(this,'8')">
+                                    <input type="text" id="8" maxlength="1" >
                                 </div>
-                                <a href="/forgot/">Forget password?</a>
+                                <button type="submit" class="btn" >Verify</button>
                             </div>
-                            <button type="submit" class="btn" >LOGIN</button>
-                            <div class="account-exist" style="color:black;font-size:20px">
-                                <p>New user? <a href="/signup/" id="signup" style="font-size:20px">Signup</a></span></p><span>
-                            </div>
+                            <a href="/resend/">Resend</a>
                         </div>
                     </form>
                 </div>
