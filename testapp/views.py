@@ -147,7 +147,8 @@ def testUploaded(request):
 def eachTestView(request, given_unique_id):
 	if request.POST and len(request.GET)== 0:
 		pass
-		#------------ upload test, tbd--------------------------------	
+		#------------ when student submit the test, tbd--------------------------------
+		
 	elif request.GET and len(request.POST) == 0:
 		# Session and tokens.
 		csrf_token = csrf.get_token(request)

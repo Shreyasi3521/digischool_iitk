@@ -17,6 +17,7 @@ class USER_SIGNUP_DATABASE(models.Model):
 
 	email_address = models.EmailField()
 	password = models.CharField(max_length=PASSWORD_LENGTH["length_range"][1])
+	verfied_user = models.BooleanField(default=False)
 	
 	# backend handled.
 	class_course_field = models.OneToOneField("courseapp.CLASS_COURSES_MAPPING", on_delete=models.CASCADE) # for teachers it will be "None"
@@ -34,3 +35,9 @@ class OTP_DATABASE(models.Model):
 	assigned_email = models.EmailField()
 	assigned_OTP = models.CharField(max_length=OTP_LENGTH)
 	assigned_time = models.DateTimeField(auto_now_add=True)
+
+class TEACHER_CODE_MAPPING(models.Model):
+	teacher_unique_code = models.CharField(max_length=TEACHER_UNIQUE_CODE_LENGTH)
+	activation_status = models.BooleanField(default=False)
+	teacher_email = models.EmailField()
+	teacher_mapping = models.OneToOneField("courseapp.AVAILABLE_COURSES", on_delete=models.CASCADE)

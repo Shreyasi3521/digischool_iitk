@@ -18,18 +18,33 @@ from django.urls import path
 from loginapp import views as login_views
 from profileapp import views as profile_views
 from testapp import views as test_views
+from django.conf import settings
+from django.conf.urls.static import static
+from lectureapp import views as lecture_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path("signup/", login_views.signUpPage),
     path("signup/status/", login_views.signUpPosted),
+    
     path("login/", login_views.loginPage),
     path("login/check/", login_views.loginPageCheck),
     path("contact/", login_views.contactPage),
     path("contact/submit/", login_views.contactPageSubmitted),
     path("profile/", profile_views.profilePage),
+    path("profile/edit/", profile_views.editProfilePage),
+    path("profile/edit/status/", profile_views.editProfilePagePosted),
     path("test/", test_views.testPage),
-    path("test/view/<int:unique_id", test_views.eachTestView),
+    path("test/view/<str:unique_id>", test_views.eachTestView),
     path("test/upload/", test_views.testUploaded),
+
+
+    # test
+    path("lecture/", lecture_views.lecturePage),
+    path("lecture/view/<str:lecture_unique_id>", lecture_views.eachLectures),
+    #
+    
     path("", login_views.homePage) # keep this in last.
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

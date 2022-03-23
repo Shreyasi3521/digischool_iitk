@@ -15,17 +15,27 @@ from loginapp import validation_check
 from backend_functions import backend_handling_functions
 
 def homePage(request):
-	if request.POST:
-		return HttpResponse("404 Not Found") # To replace with 404 not found.
+	"home page: a static file."
+	if request.POST or len(request.POST) > 0 or len(request.GET) > 0:
+		return HttpResponse('''<body><meta http-equiv="refresh" content='0; url="/"'/></body>''')
 	return render(request, "home_page.html")
 
+
 def signUpPage(request):
+	"asking for signup page"
+	if request.POST or len(request.POST) > 0 or len(request.GET) > 0:
+		return HttpResponse('''<body><meta http-equiv="refresh" content='0; url="/signup/"'/></body>''')
+
 	# Sessions and tokens.
 	csrf_token = csrf.get_token(request)
 
 	return render(request, 'signup_page.html', {"csrf_token": csrf_token , "error_signing" : False, "user_exist": False})
 
+
+
 def signUpPosted(request):
+	"action on posted signup page"
+	
 	# Security check for method-interchange vaulnerablity: https://blog.nvisium.com/method-interchange-forgotten
 	if request.GET or len(request.GET) > 0:
 		return HttpResponse('''<body><meta http-equiv="refresh" content='0; url="/signup/"'/></body>''')
@@ -33,6 +43,10 @@ def signUpPosted(request):
 	# Sessions and Tokens.
 	csrf_token = csrf.get_token(request)
 	
+	if (not request.POST) or len(request.POST) != 11:
+		# Some inputs are missing.
+		return HttpResponse('''<body><script>alert("Some required values were missing")</script><meta http-equiv="refresh" content='0; url="/signup/"'/></body>''')
+
 	# Incoming data.
 	input_data = request.POST
 
@@ -40,6 +54,7 @@ def signUpPosted(request):
 		the validation will not be True. Thus lead to "error_signing".
 		This above technique resolve the issue of middleman attack where data is tempered or removed (while sending
 		request) by tools like burpsuite."""
+
 
 	# Stripping and Validating data.
 	first_name, last_name = input_data.get("first_name", "").strip().lower(), input_data.get("last_name", "").strip().lower()
@@ -55,7 +70,7 @@ def signUpPosted(request):
 	r_number_check = validation_check.rCheck(r_number)
 
 
-	school_name, user_category = input_data.get("school_name", "").strip(), input_data.get("user_category", "").strip().upper()
+	school_name, user_category = input_data.get("school_name", "").strip().lower(), input_data.get("user_category", "").strip().upper()
 	school_name_check = validation_check.schoolNameCheck(school_name)
 	user_category_check = validation_check.categoryCheck(user_category)
 
@@ -72,6 +87,7 @@ def signUpPosted(request):
 
 	"""----------Now all the input values are valid.---------------"""
 
+
 	"""otp handling to be done"""
 
 
@@ -81,6 +97,8 @@ def signUpPosted(request):
 	user_section = user_section.upper()
 	if len(user_class) != 2:
 		user_class = "0" + user_class
+	user_category = user_category.upper()
+
 
 	# backend database working
 	class_course_field = backend_handling_functions.auto_assign_course(user_class, user_section, user_category)
@@ -97,10 +115,12 @@ def signUpPosted(request):
 
 	"""----------Now it is confirmed the user is new.---------------"""
 	try:
-		setting_user = login_models.USER_SIGNUP_DATABASE(first_name = first_name, last_name = last_name, user_class=user_class, user_section=user_section, user_contact=user_contact, user_r_number=r_number, school_name = school_name, user_category=user_category, email_address=email_address, password=password)
+
+		setting_user = login_models.USER_SIGNUP_DATABASE(first_name = first_name, last_name = last_name, user_class=user_class, user_section=user_section, user_contact=user_contact, user_r_number=r_number, school_name = school_name, user_category=user_category, email_address=email_address, password=password, class_course_field=class_course_field)
 		setting_user.save()
-		setting_profile = profile_models.USER_PROFILE_DATABASE(userDBmodeldata = setting_user)
+		setting_profile = profile_models.USER_PROFILE_DATABASE(user_signup_db_mapping = setting_user)
 		setting_profile.save()
+
 		if setting_user.user_category == "TEACHER":
 			backend_handling_functions.course_instructor_assigning(setting_user)
 	except:
@@ -110,6 +130,10 @@ def signUpPosted(request):
 	"""----------User Succesfully Created.---------------"""
 	return render(request, 'signup_success.html')
 
+
+def signupOTPVerfied(request):
+	
+	return render(request, 'signup_success.html')
 
 def contactPage(request):
 	# Sessions and tokens.
@@ -125,6 +149,8 @@ def contactPageSubmitted(request):
 
 	input_data = request.POST
 
+
+	# need to change, as we are not using url anymore but we are using name.
 	query_email_address = input_data.get("query_email", "").strip().lower()
 	query_email_check = validation_check.emailCheck(query_email_address)
 
@@ -171,19 +197,21 @@ def loginPageCheck(request):
 		enter_password = input_data.get("entered_password", False)
 		enter_password_check = validation_check.passwordCheck(enter_password)
 
-		if enter_user_name_check and enter_password_check:
+		if not(enter_user_name_check and enter_password_check):
 			# hadling tempered data.
+
 			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : True, "user_not_exist": False, "invalid_password":False})
 
 		if len(login_models.USER_SIGNUP_DATABASE.objects.filter(email_address=enter_user_name)) == 0:
 			# User does not exist.
+			
 			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : False, "user_not_exist": True, "invalid_password":False})
 		
 
 		"""----------password encryption.---------------"""
 		# password hashing and salting to be done here.
 
-		extracted_user = login_models.USER_SIGNUP_DATABASE.objects.filter(email_addr=enter_user_name)[0]
+		extracted_user = login_models.USER_SIGNUP_DATABASE.objects.filter(email_address=enter_user_name)[0]
 		
 		if extracted_user.password == enter_password:
 			Authentication = True
