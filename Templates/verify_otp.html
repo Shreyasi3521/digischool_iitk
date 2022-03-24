@@ -96,7 +96,7 @@
 
             <div class="xyz">
                 <div class="wrapper">
-                    <form class="form" name="loginform" action="/login/check/" method="post" onsubmit="otp_validation();">{% csrf_token %}
+                    <form class="form" name="loginform" action="/signup/verify/" method="get" onsubmit="otp_validation();">{% csrf_token %}
                         <div class="signin">
                             <div class="form-group">
                                 <div class="userInput">
@@ -108,8 +108,19 @@
                                     <input type="text" id="6" maxlength="1" onkeyup="clickEvent(this,'7')">
                                     <input type="text" id="7" maxlength="1" onkeyup="clickEvent(this,'8')">
                                     <input type="text" id="8" maxlength="1" >
+                                    <input type="text" hidden id="final" name="input_otp">
                                 </div>
-                                <button type="submit" class="btn" >Verify</button>
+                                <button type="submit" class="btn" onclick="combine();">Verify</button>
+                                <script>
+                                    function combine(){
+                                        let finalotp = "";
+                                        for (let i = 1; i < 9; i++)
+                                        {
+                                            finalotp +=  document.getElementById(i.toString()).value;
+                                        }
+                                        document.getElementById("final").value = finalotp;
+                                    }
+                                </script>
                             </div>
                             <a href="/resend/">Resend</a>
                         </div>

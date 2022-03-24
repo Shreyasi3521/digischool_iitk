@@ -27,7 +27,8 @@ urlpatterns = [
 
     path("signup/", login_views.signUpPage),
     path("signup/status/", login_views.signUpPosted),
-    
+    path("signup/verify/", login_views.signupOTPVerfied),
+    path("resend/", login_views.resendOTPVerify),
     path("login/", login_views.loginPage),
     path("login/check/", login_views.loginPageCheck),
     path("contact/", login_views.contactPage),
