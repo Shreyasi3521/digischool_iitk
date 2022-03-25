@@ -1,45 +1,104 @@
-import csv
-from courseapp import models as course_models
+import csv, os
+from random import randrange
 from .universal_values import *
+from courseapp import models as course_models
 from loginapp import models as login_models
 
 
+
 def code_generate():
-    start = 10 ** (OTP_LENGTH - 1)
-    end = 10 ** (OTP_LENGTH)
+    start = 10 ** (8 - 1)
+    end = 10 ** (8)
     value_secret = str(randrange(start, end))
     return value_secret
 
+# creating TEACHER_CODE_MAPPING
+# in production it will be a csv file coming from school.
+def get_teacher_class_data(prev_class, prev_section, prev_subject):
+    if prev_subject == len(AVAILABLE_SUBJECTS) - 1:
+        prev_section += 1
+        prev_subject = 0
+        if prev_section ==  len(AVAILABLE_SECTIONS):
+            prev_class += 1
+            prev_section = 0
+            prev_subject = 0
+    else:
+        prev_subject += 1
+    return prev_class, prev_section, prev_subject
+
 def populate_teacher():
     entries = (HIGHEST_CLASS_AVAILABLE - LOWEST_CLASS_AVAILABLE + 1) * len(AVAILABLE_SECTIONS) *  len(AVAILABLE_SUBJECTS)
-    with open('teacher_email_database.csv', 'r', newline='') as file:
+    
+    with open('Indian_Names.csv', 'r', newline='') as file:
         reader = csv.DictReader(file)
-        count = 0
+        count_entries_created = 0
+        jumper = 0 # random index generator
+        step = randrange(40, 85) # random step generator
+        class_index, section_index, subject_index = LOWEST_CLASS_AVAILABLE, 0, 0
         for row in reader:
-            count += 1
-            unique_code = code_generate()
-            while len(login_models.SCHOOL_TEACHER_DATABASE.objects.filter(teacher_unique_code=unique_code)) != 0:
+            if jumper != step:
+                jumper += 1
+            else:
+                jumper = 0
+                step = randrange(40, 85)
                 unique_code = code_generate()
-            test_email = row["first_name"] + "@" + 'example.com'
-            if count == entries:
-                break
-            TEACHER_CODE_MAPPING(dfasfasdf= f adsf= fdaf)
-            .save()
+                while len(login_models.TEACHER_CODE_MAPPING.objects.filter(teacher_unique_code=unique_code)) != 0:
+                    unique_code = code_generate()
+                test_email = row["Name"] + "@" + 'example.com'
+                assigned_class = str(class_index) if len(str(class_index)) == 2 else "0" + str(class_index)
+                assigned_section = AVAILABLE_SECTIONS[section_index]
+                assigned_subject = AVAILABLE_SUBJECTS[subject_index]
+                print(count_entries_created, unique_code, test_email, assigned_class, assigned_section, assigned_subject)
+                class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
+                
+                setting_entry = login_models.TEACHER_CODE_MAPPING(teacher_email=test_email, teacher_unique_code=unique_code, teacher_assigned_class=assigned_class, teacher_assigned_section=assigned_section, teacher_assigned_subject= assigned_subject)
+                setting_entry.save()
+                count_entries_created += 1
+                if count_entries_created == entries:
+                    break
 
+def populate_courses():
+    entries = (HIGHEST_CLASS_AVAILABLE - LOWEST_CLASS_AVAILABLE + 1) * len(AVAILABLE_SECTIONS) *  len(AVAILABLE_SUBJECTS)
+    class_index, section_index, subject_index = LOWEST_CLASS_AVAILABLE, 0, 0
+    count_entries_created = 0
+    while True:
+        class_to_choose = str(class_index) if len(str(class_index)) == 2 else "0" + str(class_index)
+        course_id = AVAILABLE_SUBJECTS[subject_index] + str(class_to_choose) + AVAILABLE_SECTIONS[section_index] + str(OFFERING_YEAR)
 
-with open('available_course.csv', 'w', newline='') as f:
-    thewriter = csv.writer(f)
-    for class_int in range(LOWEST_CLASS_AVAILABLE, HIGHEST_CLASS_AVAILABLE + 1):
-        for class_section in range(0, len(AVAILABLE_SECTIONS)):
-            for subjecti in range(0, len(AVAILABLE_SUBJECTS)):
-                if class_int <= 9:
-                    class_int_str = "0" + str(class_int)
-                else:
-                    class_int_str = str(class_int)
-                course_id = AVAILABLE_SUBJECTS[subjecti] + class_int_str + AVAILABLE_SECTIONS[class_section] + str(OFFERING_YEAR)
-                course_name = class_int_str + " " +  AVAILABLE_SECTIONS[class_section] + ": " + FULL_NAME[subjecti]
-                dfafdasfd = login_models.SCHOOL_TEACHER_DATABASE.objects.filter(class and section )
-                course_models.AVAILABLE_COURSES(course_id=course_id, course_name)
-                .save()
-                thewriter.writerow(
-                    [unique, 'teachername', subject[subjecti], '0', '0'])
+        class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
+
+        mapped_teacher = login_models.TEACHER_CODE_MAPPING.objects.get(teacher_assigned_class=class_to_choose, teacher_assigned_section=AVAILABLE_SECTIONS[section_index], teacher_assigned_subject=AVAILABLE_SUBJECTS[subject_index])
+
+        course_name = FULL_NAME[subject_index]
+
+        setting_course = course_models.AVAILABLE_COURSES(course_id=course_id, course_instructor=mapped_teacher, course_name=course_name)
+        setting_course.save()
+
+        count_entries_created += 1
+        if count_entries_created == entries:
+            break
+
+def populate_class_course_map():
+    entries = (HIGHEST_CLASS_AVAILABLE - LOWEST_CLASS_AVAILABLE + 1) * len(AVAILABLE_SECTIONS) *  len(AVAILABLE_SUBJECTS)
+    class_index, section_index, subject_index = LOWEST_CLASS_AVAILABLE, 0, 0
+
+    count_entries_created = 0
+    while True:
+        class_to_choose = str(class_index) if len(str(class_index)) == 2 else "0" + str(class_index)
+        
+        unique_id = str(class_to_choose) + AVAILABLE_SECTIONS[section_index] + str(OFFERING_YEAR)
+
+        class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
+
+        
+        MODIFIED_SUBJECTS = [ str(AVAILABLE_SUBJECTS[i] + unique_id) for i in range(len(AVAILABLE_SUBJECTS))]
+
+        course_id_array = " ".join(MODIFIED_SUBJECTS)
+        course_id_array.strip()
+
+        setting_class_course_map = course_models.CLASS_COURSES_MAPPING(unique_id=unique_id,course_id_array=course_id_array)
+        setting_class_course_map.save()
+
+        count_entries_created += 1
+        if count_entries_created == entries:
+            break
