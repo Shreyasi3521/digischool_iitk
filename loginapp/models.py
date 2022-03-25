@@ -18,6 +18,7 @@ class USER_SIGNUP_DATABASE(models.Model):
 	email_address = models.EmailField()
 	password = models.CharField(max_length=PASSWORD_LENGTH["length_range"][1])
 	
+	user_created_time = models.DateTimeField(auto_now_add=True)
 	# backend handled.
 	verfied_user = models.BooleanField(default=False)
 	connected_to = models.OneToOneField("loginapp.TEACHER_CODE_MAPPING", on_delete=models.CASCADE, null=True)
@@ -43,4 +44,5 @@ class TEACHER_CODE_MAPPING(models.Model):
 	teacher_unique_code = models.CharField(max_length=OTP_LENGTH)
 	teacher_assigned_class = models.CharField(max_length=2)
 	teacher_assigned_section = models.CharField(max_length=1)
+	teacher_assigned_subject = models.CharField(max_length=2) #for example, english is EN
 	activation_status = models.BooleanField(default=False)
