@@ -43,6 +43,6 @@ class TEACHER_CODE_MAPPING(models.Model):
 	teacher_email = models.EmailField()
 	teacher_unique_code = models.CharField(max_length=OTP_LENGTH)
 	teacher_assigned_class = models.CharField(max_length=2)
-	teacher_assigned_section = models.CharField(max_length=1)
+	teacher_assigned_section = models.CharField(max_length=2)
 	teacher_assigned_subject = models.CharField(max_length=2) #for example, english is EN
 	activation_status = models.BooleanField(default=False)
