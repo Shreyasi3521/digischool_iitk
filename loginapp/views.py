@@ -119,7 +119,7 @@ def signUpPosted(request):
 	
 	"""----------Now it is confirmed the user is new.---------------"""
 	try:
-		setting_user = login_models.USER_SIGNUP_DATABASE(first_name = first_name, last_name = last_name, user_class=user_class, user_section=user_section, user_contact=user_contact, user_r_number=r_number, school_name = school_name, user_category=user_category, email_address=email_address, password=password)#, class_course_field=class_course_field)
+		setting_user = login_models.USER_SIGNUP_DATABASE(first_name = first_name, last_name = last_name, user_class=user_class, user_section=user_section, user_contact=user_contact, user_r_number=r_number, school_name = school_name, user_category=user_category, email_address=email_address, password=password, class_course_field=class_course_field)
 		setting_user.save()
 		setting_profile = profile_models.USER_PROFILE_DATABASE(user_signup_db_mapping = setting_user)
 		setting_profile.save()
@@ -232,7 +232,14 @@ def contactPageSubmitted(request):
 def loginPage(request):
 	# Sessions and tokens.
 	csrf_token = csrf.get_token(request)
-
+	active_status = False
+	# getting user_id from session token.
+	user_id = None
+	if request.session.has_key('user_id'):
+		active_status = True
+		user_id = request.session["user_id"]
+	if active_status:
+		return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/profile/"'/></body>''')
 	return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login":False, "user_not_exist":False, "invalid_password":False})
 
 
@@ -242,10 +249,18 @@ def loginPageCheck(request):
 	
 	# Sessions and tokens.
 	csrf_token = csrf.get_token(request)
+	active_status = False
+	# getting user_id from session token.
+	user_id = None
+	if request.session.has_key('user_id'):
+		active_status = True
+		user_id = request.session["user_id"]
+	if active_status:
+		return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/profile/"'/></body>''')
 
 	if len(request.POST) == 3 and request.POST.get("entered_email", False) and request.POST.get("entered_password", False):
 		Authentication = False
-
+		
 		input_data = request.POST
 		enter_user_name = input_data.get("entered_email", False)
 		enter_user_name_check = validation_check.emailCheck(enter_user_name)
@@ -255,7 +270,7 @@ def loginPageCheck(request):
 
 		if not(enter_user_name_check and enter_password_check):
 			# hadling tempered data.
-			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : True, "user_not_exist": False, "invalid_password":False})
+			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : True, "user_not_exist": False, "invalid_password":True})
 
 		if len(login_models.USER_SIGNUP_DATABASE.objects.filter(email_address=enter_user_name)) == 0:
 			# User does not exist.
@@ -272,6 +287,7 @@ def loginPageCheck(request):
 		if Authentication:
 			# FOr the login we directly send the page. however in case of other time (when section is active.) we will use session id and use the profileApp's viewfunctions.
 			if not extracted_user.verfied_user:
+
 				status = otp_handling.otp_sending_handling(enter_user_name, extracted_user.user_category)
 				if not status:
 					return render(request, 'signup_page.html', {"csrf_token":csrf_token , "error_signing" : True, "user_exist": False})
@@ -284,3 +300,18 @@ def loginPageCheck(request):
 		else:
 			return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : False, "user_not_exist": False, "invalid_password": True})
 	return render(request, "login_page.html", {"csrf_token":csrf_token, "error_login" : True, "user_not_exist": False, "invalid_password":False})
+
+def logoutPage(request):
+	if request.POST or len(request.POST) > 0:
+		return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
+	# Sessions and tokens.
+	csrf_token = csrf.get_token(request)
+	active_status = False
+	# getting user_id from session token.
+	user_id = None
+	if request.session.has_key('user_id'):
+		active_status = True
+		user_id = request.session["user_id"]
+	if active_status:
+		del request.session["user_id"]
+	return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')

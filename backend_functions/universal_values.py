@@ -18,7 +18,7 @@ DEFAULT_PROFILE_PHOTO = 'Templates/default_profile_photo.jpg'
 
 OFFERING_YEAR = datetime.date.today().year
 
-CLS_COURSE_MAPPING_UNIQUE_ID_LENGTH = 7
+CLS_COURSE_MAPPING_UNIQUE_ID_LENGTH = 8
 COURSE_ID_LENGTH = 10 # format, "sc-cl-cs-ofyr" subject_code:class:section:offeringyear
 COURSE_NAME_LENGTH = 100
 COURSE_ID_ARRAY_MAX_LENGTH = 100
@@ -34,9 +34,10 @@ FILES_STRING_MAX_LENGTH = FILES_ALLOWED * 25
 
 
 OTP_LENGTH = 8
-EMAIL_ADDRESS = os.environ.get("EMAIL_USER")
-EMAIL_PASSWORD = os.environ.get("EMAIL_PASS")
-
+EMAIL_ADDRESS = "digi.school@yahoo.com"
+EMAIL_PASSWORD = "fxejcayvhfwoysdj"
+MAIL_SERVER = "smtp.mail.yahoo.com"
+PORT = 0
 TEACHER_UNIQUE_CODE_LENGTH = 8
 
 AVAILABLE_SECTIONS = ["AS", "BS", "CS", "DS"]
@@ -44,3 +45,7 @@ AVAILABLE_SUBJECTS = ["MA", "SC", "EN", "HI", "SS"]
 FULL_NAME = ["Maths", "Science", "English", "Hindi", "Social Studies"]
 HIGHEST_CLASS_AVAILABLE = 10
 LOWEST_CLASS_AVAILABLE = 6
+
+
+FORUM_TITLE_LENGTH = 100
+FORUM_QUES_LEN = 500

@@ -17,10 +17,11 @@ class USER_SIGNUP_DATABASE(models.Model):
 
 	email_address = models.EmailField()
 	password = models.CharField(max_length=PASSWORD_LENGTH["length_range"][1])
-	verfied_user = models.BooleanField(default=False)
 	
 	# backend handled.
-	class_course_field = models.OneToOneField("courseapp.CLASS_COURSES_MAPPING", on_delete=models.CASCADE) # for teachers it will be "None"
+	verfied_user = models.BooleanField(default=False)
+	connected_to = models.OneToOneField("loginapp.TEACHER_CODE_MAPPING", on_delete=models.CASCADE, null=True)
+	class_course_field = models.OneToOneField("courseapp.CLASS_COURSES_MAPPING", on_delete=models.CASCADE, null=True) # for teachers it will be "None"
 
 class QUERY_DATABASE(models.Model):
 	query_date_time = models.DateTimeField(auto_now_add=True)
@@ -36,8 +37,10 @@ class OTP_DATABASE(models.Model):
 	assigned_OTP = models.CharField(max_length=OTP_LENGTH)
 	assigned_time = models.DateTimeField(auto_now_add=True)
 
+
 class TEACHER_CODE_MAPPING(models.Model):
-	teacher_unique_code = models.CharField(max_length=TEACHER_UNIQUE_CODE_LENGTH)
-	activation_status = models.BooleanField(default=False)
 	teacher_email = models.EmailField()
-	teacher_mapping = models.OneToOneField("courseapp.AVAILABLE_COURSES", on_delete=models.CASCADE)
+	teacher_unique_code = models.CharField(max_length=OTP_LENGTH)
+	teacher_assigned_class = models.CharField(max_length=2)
+	teacher_assigned_section = models.CharField(max_length=1)
+	activation_status = models.BooleanField(default=False)

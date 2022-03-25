@@ -31,6 +31,7 @@ urlpatterns = [
     path("resend/", login_views.resendOTPVerify),
     path("login/", login_views.loginPage),
     path("login/check/", login_views.loginPageCheck),
+    path("logout/", login_views.logoutPage),
     path("contact/", login_views.contactPage),
     path("contact/submit/", login_views.contactPageSubmitted),
     path("profile/", profile_views.profilePage),

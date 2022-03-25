@@ -1,9 +1,9 @@
 from random import randrange # more strong random value generator is required.
 from backend_functions.universal_values import *
 from loginapp.models import OTP_DATABASE, TEACHER_CODE_MAPPING
-import smtplib
-import os
 
+import os
+import smtplib
 
 def otp_generate():
 	start = 10 ** (OTP_LENGTH - 1)
@@ -13,19 +13,14 @@ def otp_generate():
 
 
 def send_mail(to_email, OTP_value):
-	internal_network = ["iitk.ac.in"]
 	try:
-		if to_email.split("@")[1] in internal_network:
-			mail_server = "smtp.cc.iitk.ac.in"
-		else:
-			mail_server = "mmtp.iitk.ac.in"
-		with  smtplib.SMTP(mail_server) as smtp:
+		with smtplib.SMTP(MAIL_SERVER, PORT) as smtp:
 			smtp.ehlo()
 			smtp.starttls()
 			smtp.ehlo()
 
 			smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-			
+
 			subject = "OTP(One-time-Password) for digischool signup verification | digischool"
 			body = "The user otp is: " + OTP_value + "\nIt is valid only for 10 minutes."
 			msg = f'From: {EMAIL_ADDRESS}\nTo: {to_email}\nSubject: {subject}\n\n{body}'

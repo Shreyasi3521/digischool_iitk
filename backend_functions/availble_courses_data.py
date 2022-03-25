@@ -18,7 +18,7 @@ def populate_teacher():
         for row in reader:
             count += 1
             unique_code = code_generate()
-            while len(login_models.TEACHER_CODE_MAPPING.objects.filter(teacher_unique_code=unique_code)) != 0:
+            while len(login_models.SCHOOL_TEACHER_DATABASE.objects.filter(teacher_unique_code=unique_code)) != 0:
                 unique_code = code_generate()
             test_email = row["first_name"] + "@" + 'example.com'
             if count == entries:
@@ -38,6 +38,8 @@ with open('available_course.csv', 'w', newline='') as f:
                     class_int_str = str(class_int)
                 course_id = AVAILABLE_SUBJECTS[subjecti] + class_int_str + AVAILABLE_SECTIONS[class_section] + str(OFFERING_YEAR)
                 course_name = class_int_str + " " +  AVAILABLE_SECTIONS[class_section] + ": " + FULL_NAME[subjecti]
+                dfafdasfd = login_models.SCHOOL_TEACHER_DATABASE.objects.filter(class and section )
                 course_models.AVAILABLE_COURSES(course_id=course_id, course_name)
+                .save()
                 thewriter.writerow(
                     [unique, 'teachername', subject[subjecti], '0', '0'])
