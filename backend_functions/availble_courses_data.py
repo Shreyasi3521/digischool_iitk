@@ -44,15 +44,21 @@ def populate_teacher():
                 unique_code = code_generate()
                 while len(login_models.TEACHER_CODE_MAPPING.objects.filter(teacher_unique_code=unique_code)) != 0:
                     unique_code = code_generate()
+
                 test_email = row["Name"] + "@" + 'example.com'
                 assigned_class = str(class_index) if len(str(class_index)) == 2 else "0" + str(class_index)
                 assigned_section = AVAILABLE_SECTIONS[section_index]
                 assigned_subject = AVAILABLE_SUBJECTS[subject_index]
-                print(count_entries_created, unique_code, test_email, assigned_class, assigned_section, assigned_subject)
+                
                 class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
                 
+                # just to create a v10 BS SCalid entry
+                if assigned_class == "10" and assigned_section == "BS" and assigned_subject=="SC":
+                    test_email = "sumit.nagle@gmail.com"
+
                 setting_entry = login_models.TEACHER_CODE_MAPPING(teacher_email=test_email, teacher_unique_code=unique_code, teacher_assigned_class=assigned_class, teacher_assigned_section=assigned_section, teacher_assigned_subject= assigned_subject)
                 setting_entry.save()
+                print(count_entries_created, unique_code, test_email, assigned_class, assigned_section, assigned_subject)
                 count_entries_created += 1
                 if count_entries_created == entries:
                     break

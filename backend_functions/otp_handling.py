@@ -41,7 +41,7 @@ def check_otp(email, received_otp, user_category):
 	if user_category == "STUDENT":
 		database_otp = OTP_DATABASE.objects.filter(assigned_email=email)[0].assigned_OTP
 	else:
-		database_otp = TEACHER_CODE_MAPPING.objects.filter(teacher_email=to_email)[0].teacher_unique_code
+		database_otp = TEACHER_CODE_MAPPING.objects.filter(teacher_email=email)[0].teacher_unique_code
 	if not (len(database_otp) > 0):
 		return False
 	return database_otp == received_otp
@@ -49,9 +49,11 @@ def check_otp(email, received_otp, user_category):
 def otp_sending_handling(to_email, user_category):
 	if user_category == "STUDENT":
 		otp = otp_generate()
+		status_email = send_mail(to_email, otp)
 	else:
 		otp = TEACHER_CODE_MAPPING.objects.filter(teacher_email=to_email)[0].teacher_unique_code
-	status_email = send_mail(to_email, otp)
+		status_email = True
+	
 	return status_email
 
 def otp_receiving_handling(to_email, received_otp, user_category):
