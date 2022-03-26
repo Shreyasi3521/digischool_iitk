@@ -101,6 +101,11 @@
 
             <div class="xyz">
                 <div class="wrapper">
+                    {% if given_user.user_category == "STUDENT" %}
+                    <p style="text-align:center;">You will receive an OTP on, <span style="color: red; font-weight:bold;">{{given_user.email_address}}</span>. Please enter it here to verify.</p>
+                    {% else %}
+                    <p style="text-align:center;">Your school have provided a <span style="color: red; font-weight:bold;">unique code</span> to use. Please enter it here to verify.</p>
+                    {% endif %}
                     <form class="form" name="loginform" action="/signup/verify/" method="get" onsubmit="otp_validation();">{% csrf_token %}
                         <div class="signin">
                             <div class="form-group">

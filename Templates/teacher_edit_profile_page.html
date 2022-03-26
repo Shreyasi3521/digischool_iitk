@@ -2,7 +2,8 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="homepage.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'homepage.css' %}">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,13 +21,14 @@
         <div class="menu">
         <li><a href="homepage.html">Home</a></li>
         <li class="services">
-        <a  class="profile-top" href="homepage.html"><img src="profile_photo.jpg" alt="Profile" style="width:48px;height:48px;"> </a>
+        {% load static %}
+        <a  class="profile-top" href="homepage.html"><img src="{% static 'profile_photo.jpg' %}" alt="Profile" style="width:48px;height:48px;"> </a>
         
         <!-- DROPDOWN MENU -->
         <ul class="dropdown">
         <li><button id="edit-profile">Edit profile</button></li>
         <li><button id="change-password">Change password</button></li>
-        <li><a class="logout" href="index.html">Log out</a></li>
+        <li><a class="logout" href="/logout/">Log out</a></li>
 
         </ul>
         </li>
@@ -119,7 +121,8 @@
             
 
             <th style="width:30%"><a  class="edit-profile-bot"><label for="fileField">
-              <img src="profile_photo.jpg" alt="Profile" height="100px" width="100px"></label>
+              {% load static %}
+              <img src="{% static 'profile_photo.jpg' %}" alt="Profile" height="100px" width="100px"></label>
   
               <input name="profile_img" type="file" id="fileField" name="file" accept="image/*" > </th>
             <th>
@@ -159,7 +162,7 @@
 
 
 
-
-  <script src="homepage.js"></script>
+  {% load static %}
+  <script src="{% static 'homepage.js' %}"></script>
 </body>
 </html>

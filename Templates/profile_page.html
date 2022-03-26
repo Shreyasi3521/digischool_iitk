@@ -123,12 +123,12 @@
                     <th class= "profile-data student-name" style="width:30%"><a >{{user_data.user_signup_db_mapping.first_name}} {{user_data.user_signup_db_mapping.last_name}}</a></th>
                     </tr>
                     <tr>
-                        {% if user_data.user_signup_db_mapping.category == "STUDENT" %}
+                        {% if user_data.user_signup_db_mapping.user_category == "STUDENT" %}
                         <th class="profile-data" style="width:50%">Roll Number :</th>
                         {% else %}
                         <th class="profile-data" style="width:50%">Registration Number :</th>
                         {% endif %}
-                        <th class="profile-data student-roll-number" style="width:10%"><a>{{user_data.user_signup_db_mapping.r_number}}</a></th>
+                        <th class="profile-data student-roll-number" style="width:10%"><a>{{user_data.user_signup_db_mapping.user_r_number}}</a></th>
                         </tr>
                     <tr>
                     <th class="profile-data" style="width:50%">Class :</th>

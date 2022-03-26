@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'test.css' %}">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/343524fab9.js" crossorigin="anonymous"></script>
+   </head>
+<body>
+    <nav class="navbar">
+        <!-- LOGO -->
+        <div class="logo"></div>
+        <!-- NAVIGATION MENU -->
+        <ul class="nav-links">
+
+        <!-- NAVIGATION MENUS -->
+        <div class="menu">
+        <li><a href="homepage.html" style="color: white">Home</a></li>
+        <li class="services">
+        <a  class="profile-top" href="homepage.html"><img src="profile_photo.jpg" alt="Profile" style="width:48px;height:48px;"> </a>
+        
+        <!-- DROPDOWN MENU -->
+        <ul class="dropdown">
+        <li><a class="logout" href="index.html">Log out</a></li>
+
+        </ul>
+        </li>
+ 
+        </div>
+
+        </ul>
+
+        </nav>
+
+
+
+        <!-- side  NAVIGATION MENUS -->
+  <div class="sidebar">
+    <div class="logo-details">
+        <div class="logo_name">Dashboard</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+       <a href="homepage.html">
+        <i class='bx bxs-home'></i>
+         <span class="links_name">Home</span>
+       </a>
+       <span class="tooltip">Home</span>
+     </li>
+     <li>
+       <a href="#">
+        <i class='bx bxs-book-open'></i>
+        
+         <span class="links_name">Lecture Materials</span>
+       </a>
+       <span class="tooltip">Lecture Materials</span>
+     </li>
+     <li>
+       <a href="test.html">
+        <i class='bx bx-question-mark'></i>
+         <span class="links_name">Tests</span>
+       </a>
+       <span class="tooltip">Tests</span>
+     </li>
+     <li>
+       <a href="#">
+        <i class='bx bxs-report'></i>
+         <span class="links_name">Progress Report</span>
+       </a>
+       <span class="tooltip">Progress resport</span>
+     </li>
+     <li>
+       <a href="#">
+        <i class='bx bxs-comment-detail' ></i>
+         <span class="links_name">Forum</span>
+       </a>
+       <span class="tooltip">Forum</span>
+     </li>
+     <li>
+       <a href="contact_us.html">
+        
+        <i class='bx bx-chat' ></i>
+         <span class="links_name">Feedback</span>
+       </a>
+       <span class="tooltip">Feedback</span>
+     </li>
+     <li>
+       <a href="index.html">
+        <i class='bx bx-exit'></i>
+         <span class="links_name">Logout</span>
+       </a>
+       <span class="tooltip">Logout</span>
+     </li>
+     
+    </ul>
+  </div>
+
+
+  
+        <!-- Student profile in home page with photo and details -->
+  <div class="main">
+    <div class="subject">
+      <p class="sub"><b> Select Subject </b></p>
+      <ul class="nav-links">
+        {% for course_id in all_course_list %}
+        <li><a class="course" id="course-{{subject_code.index(course_id[0:2]) + 1}}">{{ course_full[subject_code.index(course_id[0:2])] }}</a></li>
+        {% endfor %}
+        <div class="active">     
+        </div>
+    </ul>
+  </div>
+        {% for course_id in all_course_list %}
+        <div class="course-content">
+          <div class="course-{{subject_code.index(course_id[0:2]) + 1}}">
+            {% for test_each in user_courses.objects.get(course_id=each_course_id).all_tests_set.all() %}
+              {% if current_datetime > test_each.start_datetime %}
+                {% if current_datatime > test_each.end_datetime %}
+                  <div class="completed-content">
+                    <button type="button" href="/test/view/{{test_each.test_unique_id}}" class="btn btn-outline-secondary completed-course-details">{{test_each.test_title}}<p class="test-date">{{test_each.end_datetime.day}}/{{test_each.end_datetime.month}}/{{test_each.end_datetime.year}} {{test_each.end_datetime.hour}}:{{test_each.end_datetime.minute}}</p></button>
+                  </div>
+                {% else %}
+                  <div class="pending-content">
+                  <button type="button" href="/test/view/{{test_each.test_unique_id}}" class="btn btn-outline-secondary pending-course-details">{{test_each.test_title}}<p class="test-date" style="text-align: center">{{test_each.end_datetime.day}}/{{test_each.end_datetime.month}}/{{test_each.end_datetime.year}} {{test_each.end_datetime.hour}}:{{test_each.end_datetime.minute}}</p></button>
+                  </div>
+                {% endif %}
+              {% endif %}
+              {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+  </div>
+  {% load static %}
+  <script src="{% static 'test.js' %}"></script>
+</body>
+</html>
