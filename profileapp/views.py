@@ -175,8 +175,8 @@ def editProfilePagePosted(request):
 				user_section_check = validation_check.sectionCheck(edit_section)
 
 				edit_contact, edit_r_number = input_data.get("edit_contact", "0").strip(), input_data.get("edit_r_number", "0").strip()
-				contact_check = validation_check.contactCheck(user_contact)
-				r_number_check = validation_check.rCheck(r_number)
+				contact_check = validation_check.contactCheck(edit_contact)
+				r_number_check = validation_check.rCheck(edit_r_number)
 
 
 				edit_school_name = input_data.get("edit_school", "").strip()

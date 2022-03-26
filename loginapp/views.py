@@ -91,7 +91,7 @@ def signUpPosted(request):
 	# data formatting.
 	first_name = first_name[0].upper() + first_name[1:]
 	last_name = last_name[0].upper() + last_name[1:]
-	user_section = user_section.upper()
+	user_section = user_section.upper() + "S"
 	if len(user_class) != 2:
 		user_class = "0" + user_class
 	user_category = user_category.upper()
@@ -117,7 +117,7 @@ def signUpPosted(request):
 	# backend database working
 	class_course_field = backend_handling_functions.auto_assign_course(user_class, user_section, user_category)
 	if user_category == "TEACHER":
-		school_data = login_models.TEACHER_CODE_MAPPING.objects.filter(assigned_email=teacher_entry.email_address)
+		school_data = login_models.TEACHER_CODE_MAPPING.objects.filter(teacher_email=email_address)
 		if len(school_data) == 0:
 			return HttpResponse('''<body><script>alert("User specified email, is not a teacher's email (as given to us by the school)")</script><meta http-equiv="refresh" content="0; url='/signup/'"></body>''')
 
@@ -132,7 +132,7 @@ def signUpPosted(request):
 		if user_category == "STUDENT":
 			connected_to = None
 		else:
-			connected_to = login_models.TEACHER_CODE_MAPPING.objects.get(assigned_email=teacher_entry.email_address)
+			connected_to = login_models.TEACHER_CODE_MAPPING.objects.get(teacher_email=email_address)
 		
 		setting_user = login_models.USER_SIGNUP_DATABASE(first_name = first_name, last_name = last_name, user_class=user_class, user_section=user_section, user_contact=user_contact, user_r_number=r_number, school_name = school_name, user_category=user_category, email_address=email_address, password=password, class_course_field=class_course_field, connected_to=connected_to)
 		setting_user.save()
@@ -148,7 +148,7 @@ def signUpPosted(request):
 		return render(request, 'signup_page.html', {"csrf_token":csrf_token , "error_signing" : True, "user_exist": False})
 	
 	request.session['user_email_for_otp'] = email_address
-	return render(request, 'verify_otp.html')
+	return render(request, 'verify_otp.html', {"given_user": setting_user})
 
 
 def signupOTPVerfied(request):
@@ -176,10 +176,11 @@ def signupOTPVerfied(request):
 			selected_user.verfied_user = True
 			selected_user.save()
 			request.session['user_email_for_otp'] = None
-			removing_entry = login_models.OTP_DATABASE.objects.get(assigned_email=email_of_request)
-			removing_entry.delete()
+			if user_category == "STUDENT":
+				removing_entry = login_models.OTP_DATABASE.objects.get(assigned_email=email_of_request)
+				removing_entry.delete()
 			if user_category == "TEACHER":
-				teacher_is_assigned = login_models.TEACHER_CODE_MAPPING.get(assigned_email=email_of_request)
+				teacher_is_assigned = login_models.TEACHER_CODE_MAPPING.objects.get(teacher_email=email_of_request)
 				teacher_is_assigned.activation_status = True
 				teacher_is_assigned.save()
 			return render(request, 'signup_success.html', {"full_name": first_name_only})
@@ -203,7 +204,7 @@ def resendOTPVerify(request):
 		status = otp_handling.otp_sending_handling(email_of_request, user_category)
 		if not status:
 			return render(request, 'signup_page.html', {"csrf_token":csrf_token , "error_signing" : True, "user_exist": False})
-		return render(request, 'verify_otp.html')
+		return render(request, 'verify_otp.html', {"given_user": selected_user})
 	else:
 		return HttpResponse('''<body><script>alert("Some error occured from user side.")</script><meta http-equiv="refresh" content='0; url="/signup/"'/></body>''')
 
@@ -309,7 +310,7 @@ def loginPageCheck(request):
 					return render(request, 'signup_page.html', {"csrf_token":csrf_token , "error_signing" : True, "user_exist": False})
 				
 				request.session['user_email_for_otp'] = enter_user_name
-				return render(request, 'verify_otp.html')
+				return render(request, 'verify_otp.html', {"given_user": extracted_user})
 
 			request.session['user_id'] = extracted_user.id
 			return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/profile/"'/></body>''')

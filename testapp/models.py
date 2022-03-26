@@ -10,3 +10,6 @@ class ALL_TESTS(models.Model):
 	test_unique_id = models.CharField(max_length=TEST_UNIQUE_ID) # "course_id(10):test_series_number(2)"
 	course_mapping = models.ForeignKey("courseapp.AVAILABLE_COURSES", on_delete=models.CASCADE)
 	test_data = models.JSONField() # contains scores. json format {"maximumscore": 100, "minimumscore":0 , loginapp.USER_SIGNUPUP_DATABASE.id": "score", . .  . .. . }
+
+	class Meta:
+		ordering = ('test_unique_id',)
