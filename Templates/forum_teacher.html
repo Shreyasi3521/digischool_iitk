@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'test1.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'test_each_page.css' %}">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/343524fab9.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   </head>
+<body>
+  <div class="sidebar">
+    <div class="logo-details">
+      <div class="logo_name">Dashboard</div>
+        <i class='bx bx-menu' id="btn" ></i>
+      </div>
+      <ul class="nav-list">
+        <li>
+          <a href="/profile/">
+          <i class='bx bxs-home'></i>
+          <span class="links_name">Home</span>
+          </a>
+          <span class="tooltip">Home</span>
+        </li>
+        <li>
+          <a href="/lecture/">
+            <i class='bx bxs-book-open'></i>
+            <span class="links_name">Lectures</span>
+          </a>
+          <span class="tooltip">Lectures</span>
+        </li>
+        <li>
+          <a href="/test/">
+          <i class='bx bx-question-mark'></i>
+          <span class="links_name">Tests</span>
+          </a>
+          <span class="tooltip">Tests</span>
+        </li>
+        <li>
+          <a href="/forum/">
+          <i class='bx bxs-comment-detail' ></i>
+          <span class="links_name">Forum</span>
+          </a>
+          <span class="tooltip">Forum</span>
+        </li>
+        <li>
+          <a href="/contact/">
+          <i class='bx bx-chat' ></i>
+          <span class="links_name">Feedback</span>
+          </a>
+          <span class="tooltip">Feedback</span>
+        </li>
+        <li>
+          <a href="/logout/">
+          <i class='bx bx-exit'></i>
+          <span class="links_name">Logout</span>
+          </a>
+          <span class="tooltip">Logout</span>
+        </li>
+      </ul>
+  </div>
+  <div class="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10">
+          <div class="subject">
+            <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
+            <ul class="nav-links">
+              {% for course_id in all_course_list %}
+              {% for i, s_c_value in subject_code.items %}
+              {% if s_c_value.0 == course_id|slice:"0:2" %}
+              <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;' class="course" id="course-{{ i|add:'1' }}">{{ s_c_value.1 }}</a></li>
+              {% endif %}
+              {% endfor %}
+              {% endfor %}
+              <div class="active">     
+              </div>
+            </ul>
+        </div>
+        </div>
+      </div>
+    </div>
+    {% for each_course_id in all_course_list %}
+    {% for i, s_c_value in subject_code.items %}
+    {% if s_c_value.0 == each_course_id|slice:"0:2" %}
+    <div class="course-content">
+      <div class="course-{{i|add:'1'}}">
+        <div class="go-back"> <a style="text-decoration: none;"href= "/forum/"><button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button"  class="btn btn-default btn-block"><span style="color:black;">Go Back to Main Page</span></button></a> </div>
+        <br>
+        <div class="create-test"> <a href= "/forum/create/{{each_course_id}}"> <button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button" class="btn btn-primary btn-block">Create a New Forum</button></a></div>
+        <h1 style="font-weight:bold; overflow-wrap: break-word; color: white; padding: 10px;">All Forum</h1>
+        {% for forum_of_courses in forum_all_list %}
+        {% for forum_each in forum_of_courses %}
+          <div class="completed-content">
+            <details class="style7">
+              <summary><span style="overflow-wrap: break-word;font-size:15px;" class="moon-new">{{forum_each.forum_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{forum_each.forum_datetime.day}}/{{forum_each.forum_datetime.month}}/{{forum_each.forum_datetime.year}} {{forum_each.forum_datetime.hour}}:{%if forum_each.forum_datetime.minute < 10 %}0{%endif%}{{forum_each.forum_datetime.minute}}</strong></span></summary>
+              <div class="content">
+                <form action="/forum/view/{{forum_each.forum_unique_id}}" method="get"><button type="submit" style="height: 30px;" class="btn btn-outline-secondary completed-course-details" value="View Test">View Forum</button></form>              </div>
+              </details>
+          </div>
+    
+      {% endfor %}
+      {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </div>
+  {% load static %}
+  <script src="{% static 'test1.js' %}"></script>
+</body>
+</html>

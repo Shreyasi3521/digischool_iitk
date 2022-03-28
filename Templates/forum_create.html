@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create a Forum | DigiSchool</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'test_create.css' %}">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/343524fab9.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="logo-details">
+        <div class="logo_name">Dashboard</div>
+          <i class='bx bx-menu' id="btn" ></i>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="/profile/">
+            <i class='bx bxs-home'></i>
+            <span class="links_name">Home</span>
+            </a>
+            <span class="tooltip">Home</span>
+          </li>
+          <li>
+            <a href="/lecture/">
+              <i class='bx bxs-book-open'></i>
+              <span class="links_name">Lectures</span>
+            </a>
+            <span class="tooltip">Lectures</span>
+          </li>
+          <li>
+            <a href="/test/">
+            <i class='bx bx-question-mark'></i>
+            <span class="links_name">Tests</span>
+            </a>
+            <span class="tooltip">Tests</span>
+          </li>
+          <li>
+            <a href="/forum/">
+            <i class='bx bxs-comment-detail' ></i>
+            <span class="links_name">Forum</span>
+            </a>
+            <span class="tooltip">Forum</span>
+          </li>
+          <li>
+            <a href="/contact/">
+            <i class='bx bx-chat' ></i>
+            <span class="links_name">Feedback</span>
+            </a>
+            <span class="tooltip">Feedback</span>
+          </li>
+          <li>
+            <a href="/logout/">
+            <i class='bx bx-exit'></i>
+            <span class="links_name">Logout</span>
+            </a>
+            <span class="tooltip">Logout</span>
+          </li>
+        </ul>
+    </div>
+    <div class="testbox">
+      <!--need do all jscript onblur functions.-->
+      <form  id="uploadform" name="time_test" action="/forum/upload/" enctype="multipart/form-data" method="post">{% csrf_token %}
+        <h1>Create a Forum in {{ full_course_name }}</h1>
+        <br>
+        <input type="hidden" name="selected_course" value="{{ course_id }}">
+        <div class="item">
+          <p>Forum Topic</p>
+          <textarea class="text-add" type="text" placeholder="Title" name="forum_topic" onblur="title_validation();" required="true"></textarea>
+        </div>
+        <div class="item">
+          <p>Description</p>
+          <textarea class="text-add" type="text" placeholder="Instructions" name="forum_description" onblur="instruction_validation();" required="true"></textarea>
+        </div>
+        <div class="btn-block">
+          <button type="submit" href="#" class=" btn btn-defalut btn-info" style="background-color: #11101D;color:white;">Create</button>
+        </div>
+      </form>
+    </div>
+    {% load static %}
+    <script src="{% static 'test1.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'test_create.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'test2.js' %}"></script>
+  </body>
+</html>

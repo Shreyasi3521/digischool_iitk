@@ -21,7 +21,7 @@ from testapp import views as test_views
 from django.conf import settings
 from django.conf.urls.static import static
 from lectureapp import views as lecture_views
-
+from forumapp import views as forum_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -54,8 +54,16 @@ urlpatterns = [
     # all lectures related things
     path("lecture/", lecture_views.lecturePage),
     path("lecture/view/<str:lecture_unique_id>", lecture_views.eachLectures),
+
     #
     
+    # all forum related things
+    path("forum/", forum_views.forumPage),
+    path("forum/create/<str:course_id_to_upload>", forum_views.createPage),
+    path("forum/upload/", forum_views.forumUploaded),
+    path("forum/view/<str:given_unique_id>", forum_views.eachForumView),
+    path("forum/submit/<str:forum_unique_id>", forum_views.forumAnswerUpload),
+
     path("", login_views.homePage) # keep this in last.
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
