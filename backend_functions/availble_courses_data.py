@@ -40,7 +40,7 @@ def populate_teacher():
                 jumper += 1
             else:
                 jumper = 0
-                step = randrange(40, 85)
+                step = randrange(40, 80)
                 unique_code = code_generate()
                 while len(login_models.TEACHER_CODE_MAPPING.objects.filter(teacher_unique_code=unique_code)) != 0:
                     unique_code = code_generate()
@@ -71,12 +71,13 @@ def populate_courses():
         class_to_choose = str(class_index) if len(str(class_index)) == 2 else "0" + str(class_index)
         course_id = AVAILABLE_SUBJECTS[subject_index] + str(class_to_choose) + AVAILABLE_SECTIONS[section_index] + str(OFFERING_YEAR)
 
-        class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
+        
 
         mapped_teacher = login_models.TEACHER_CODE_MAPPING.objects.get(teacher_assigned_class=class_to_choose, teacher_assigned_section=AVAILABLE_SECTIONS[section_index], teacher_assigned_subject=AVAILABLE_SUBJECTS[subject_index])
 
         course_name = FULL_NAME[subject_index]
-
+        print(count_entries_created, AVAILABLE_SUBJECTS[subject_index], str(class_to_choose), AVAILABLE_SECTIONS[section_index])
+        class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
         setting_course = course_models.AVAILABLE_COURSES(course_id=course_id, course_instructor=mapped_teacher, course_name=course_name)
         setting_course.save()
 
@@ -87,24 +88,30 @@ def populate_courses():
 def populate_class_course_map():
     entries = (HIGHEST_CLASS_AVAILABLE - LOWEST_CLASS_AVAILABLE + 1) * len(AVAILABLE_SECTIONS) *  len(AVAILABLE_SUBJECTS)
     class_index, section_index, subject_index = LOWEST_CLASS_AVAILABLE, 0, 0
-
+    entry_done = list()
     count_entries_created = 0
     while True:
         class_to_choose = str(class_index) if len(str(class_index)) == 2 else "0" + str(class_index)
         
         unique_id = str(class_to_choose) + AVAILABLE_SECTIONS[section_index] + str(OFFERING_YEAR)
-
-        class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
-
         
         MODIFIED_SUBJECTS = [ str(AVAILABLE_SUBJECTS[i] + unique_id) for i in range(len(AVAILABLE_SUBJECTS))]
 
         course_id_array = " ".join(MODIFIED_SUBJECTS)
         course_id_array.strip()
 
-        setting_class_course_map = course_models.CLASS_COURSES_MAPPING(unique_id=unique_id,course_id_array=course_id_array)
-        setting_class_course_map.save()
 
+        if not unique_id in entry_done:
+            setting_class_course_map = course_models.CLASS_COURSES_MAPPING(unique_id=unique_id,course_id_array=course_id_array)
+            setting_class_course_map.save()
+            print(count_entries_created, unique_id, MODIFIED_SUBJECTS)
+        
+        class_index, section_index, subject_index = get_teacher_class_data(class_index, section_index, subject_index)
+        
+
+        entry_done.append(unique_id)
+
+        
         count_entries_created += 1
         if count_entries_created == entries:
             break

@@ -1,0 +1,193 @@
+/* # The Rotating Marker # */
+details summary::-webkit-details-marker { display: none; }
+summary::before {
+  font-family: "Hiragino Mincho ProN", "Open Sans", sans-serif;
+  content: "▶";
+  position: absolute;
+  top: 1rem;
+  left: 0.8rem;
+  transform: rotate(0);
+  transform-origin: center;
+  transition: 0.2s transform ease;
+}
+details[open] > summary:before {
+  transform: rotate(90deg);
+  transition: 0.45s transform ease;
+}
+
+/* # The Sliding Summary # */
+details { overflow: hidden; }
+details summary {
+  position: relative;
+  z-index: 10;
+}
+@keyframes details-show {
+  from {
+    margin-bottom: -80%;
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+details > *:not(summary) {
+  animation: details-show 500ms ease-in-out;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+  color: transparent;
+  overflow: hidden;
+}
+details[open] > *:not(summary) { color: inherit; }
+
+/* # Style 7 # */
+details.style7 summary {
+  padding-left: 3rem;
+}
+details[open].style7 summary,
+details.style7:hover summary {
+  background: #000;
+  color: #CCC;
+}
+details[open].style7 summary strong,
+details.style7:hover summary strong {
+  color: #FDCE4C;
+}
+details.style7:hover summary strong { color: #ffdf87; }
+details.style7 summary::before {
+  content: 	"\0231B";
+  font-size: 1.5rem;
+  top: 0.5rem;
+  left: 0.5rem;
+  transform: rotate(0);
+}
+details.style7:hover > summary::before {
+  content: "\023F3";
+}
+details[open].style7 > summary::before {
+  content: "\023F3";
+  transform: rotate(0deg);
+}
+details[open].style7 > summary:hover::before {
+  content: "\023F3";
+}
+details .moon-new { display: inline; }
+details .moon-full { display: none; }
+details[open] .moon-new { display: none; }
+details[open] .moon-full { display: inline; }
+details.style7 .content { background: #DDD; }
+
+/* # Just Some Pretty Styles # */
+
+p { margin: 0; padding-bottom: 10px; }
+p:last-child { padding: 0; }
+details {
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 5px;
+  background: white;
+}
+summary {
+  border: 4px solid transparent;
+  outline: none;
+  padding: 1rem;
+  display: block;
+  background: #666;
+  color: white;
+  padding-left: 2.2rem;
+  position: relative;
+  cursor: pointer;
+}
+details[open] summary,
+summary:hover {
+  color: #FFCA28;
+  background: #444;
+}
+summary:hover strong,
+details[open] summary strong,
+summary:hover::before,
+details[open] summary::before {
+  color: #FFA128;
+}
+.content {
+  padding: 10px;
+  border: 2px solid #888;
+  border-top: none;
+}
+
+body{
+  background-image: url('pexels-photo-6672227.jpeg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;}
+
+  .topright {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+      font-size: 18px;
+}
+
+.accordion {
+background-color: #eee;
+color: #444;
+cursor: pointer;
+padding: 18px;
+width: 100%;
+border: none;
+text-align: left;
+outline: none;
+font-size: 15px;
+transition: 0.4s;
+}
+
+.active, .accordion:hover {
+background-color: #ccc; 
+}
+
+.panel {
+padding: 0 18px;
+display: none;
+background-color: white;
+overflow: hidden;
+}
+
+.instruction-only{
+  display: block;
+}
+.instruction-question{
+  display: none;
+}
+.question-only{
+  display: none;
+}
+
+.expand{
+    margin-top: 1px;
+    margin-right: 1.5%;
+    position:absolute;
+    top:10px;
+    right:2px;
+}
+
+
+.boxtext {
+  background-color: rgba(0,0,0,.5);
+  color: #fff;
+}
+
+.button-test{
+  cursor: pointer;
+  width: 50%;
+  
+}
+
+.text-add{
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}

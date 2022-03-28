@@ -34,15 +34,24 @@ urlpatterns = [
     path("logout/", login_views.logoutPage),
     path("contact/", login_views.contactPage),
     path("contact/submit/", login_views.contactPageSubmitted),
+
+
     path("profile/", profile_views.profilePage),
     path("profile/edit/", profile_views.editProfilePage),
     path("profile/edit/status/", profile_views.editProfilePagePosted),
+
+    # all test related things
     path("test/", test_views.testPage),
-    path("test/view/<str:unique_id>", test_views.eachTestView),
+    path("test/view/<str:given_unique_id>", test_views.eachTestView),
     path("test/upload/", test_views.testUploaded),
+    path("test/create/<str:course_id_to_upload>", test_views.createPage),
+    path("test/submit/<str:test_unique_id>", test_views.answerUpload),
+    path("test/edit/<str:test_unique_id>", test_views.editTestPage),
+    path("test/edit/upload/<str:test_unique_id>", test_views.editTestUpload),
+    path("test/answer/<str:test_unique_id>", test_views.answerCheckPage),
+    path("test/answer/save/<str:test_unique_id>", test_views.scoreUpload),
 
-
-    # test
+    # all lectures related things
     path("lecture/", lecture_views.lecturePage),
     path("lecture/view/<str:lecture_unique_id>", lecture_views.eachLectures),
     #

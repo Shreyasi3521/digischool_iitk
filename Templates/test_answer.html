@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title></title>
+      <link rel="stylesheet" href="test_answer.css">
+      <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="logo-details">
+        <div class="logo_name">Dashboard</div>
+          <i class='bx bx-menu' id="btn" ></i>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="/profile/">
+            <i class='bx bxs-home'></i>
+            <span class="links_name">Home</span>
+            </a>
+            <span class="tooltip">Home</span>
+          </li>
+          <li>
+            <a href="/lecture/">
+              <i class='bx bxs-book-open'></i>
+              <span class="links_name">Lectures</span>
+            </a>
+            <span class="tooltip">Lectures</span>
+          </li>
+          <li>
+            <a href="/test/">
+            <i class='bx bx-question-mark'></i>
+            <span class="links_name">Tests</span>
+            </a>
+            <span class="tooltip">Tests</span>
+          </li>
+          <li>
+            <a href="/forum/">
+            <i class='bx bxs-comment-detail' ></i>
+            <span class="links_name">Forum</span>
+            </a>
+            <span class="tooltip">Forum</span>
+          </li>
+          <li>
+            <a href="/contact/">
+            <i class='bx bx-chat' ></i>
+            <span class="links_name">Feedback</span>
+            </a>
+            <span class="tooltip">Feedback</span>
+          </li>
+          <li>
+            <a href="/logout/">
+            <i class='bx bx-exit'></i>
+            <span class="links_name">Logout</span>
+            </a>
+            <span class="tooltip">Logout</span>
+          </li>
+        </ul>
+    </div>
+    <form action="test/answer/save/{{given_test.test_unique_id}" method="post">{%csrf_token%}
+    <div class="answers-box"> 
+      <h1 class="heading-answer-box">Submitted Answers</h1>
+      {% for each_student in user_signup_db.objects.filter(user_class=given_class, user_section=given_section)%}
+      <div class="student-answer">
+        <a class="student-name"><h2>{{each_student.first_name}} {{each_student.last_name}<h2><a><span><a>Roll No: {{each_student.user_r_number}</a></span>
+          <div class="question-answer">
+            {% with student_answer = json.load(open(given_test.test_data[each_student.id], "r")) %}
+              {% for each_ques in given_test.test_questions%}
+              <h5> <span class="question-number">Question {{each_ques}}: </span><span class="question">{{given_test.test_questions[each_ques]}}</h5>
+              <h5> <span class="Answer-number">Answer {{each_ques}}: </span><span class="answer">{{ student_answer[each_ques] }}</h5>
+              {% endfor %}
+            
+            </div>
+          {% if stuent_answer.get("SCORE", False) %}
+            <a class="total-score"><span><input type="number" name="{{each_student.id}}" max="{{given_test.test_data['MAXIMUM MARKS']}}" min="{{given_test.test_data['MINIMUM MARKS']}}" style="border: 1px solid #11101D;border-radius: 10px; width: 200px; height: 30px;font-size:20px" placeholder="score"></span><span>/ {{given_test.test_data['MAXIMUM MARKS']}}</span></a>
+          {% else}
+          <a class="total-score"><span><input type="number" name="{{each_student.id}}" value="{{stuent_answer['SCORE']}}" max="{{given_test.test_data['MAXIMUM MARKS']}}" min="{{given_test.test_data['MINIMUM MARKS']}}" style="border: 1px solid #11101D;border-radius: 10px; width: 200px; height: 30px;font-size:20px" placeholder="score" disabled></span><span>/ {{given_test.test_data['MAXIMUM MARKS']}}</span></a>
+          {% endif %}
+          {% endwith %}
+        </div>
+      {% endfor %}
+        <button type="button" class="btn-submit">submit</button>
+    </div>
+    </form>
+          
+    <script src="test.js" async defer></script>
+  </body>
+</html>
