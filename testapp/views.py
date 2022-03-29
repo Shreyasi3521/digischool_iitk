@@ -584,6 +584,7 @@ def answerUpload(request, test_unique_id):
 			student_answer[test_number_key] = answer_for_test_number if answer_check else ""
 	
 		test_questions_file.close()
+		test_answer_file.close()
 		
 		try:
 
@@ -595,8 +596,12 @@ def answerUpload(request, test_unique_id):
 
 			student_file.close()
 			
-			test_answer[extract_user__user_signup_database.id] = file_name
+			test_answer[extract_user__user_signup_database.id] = str(file_name)
 
+			
+			
+			
+			test_answer_file = open(test_answer_file_name, "w")
 			a = json.dump(test_answer, test_answer_file)
 			test_answer_file.close()
 		except:

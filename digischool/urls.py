@@ -22,9 +22,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from lectureapp import views as lecture_views
 from forumapp import views as forum_views
+from courseapp import views as course_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # These are all related to login system.
     path("signup/", login_views.signUpPage),
     path("signup/status/", login_views.signUpPosted),
     path("signup/verify/", login_views.signupOTPVerfied),
@@ -53,9 +55,11 @@ urlpatterns = [
 
     # all lectures related things
     path("lecture/", lecture_views.lecturePage),
-    path("lecture/view/<str:lecture_unique_id>", lecture_views.eachLectures),
-
-    #
+    path("lecture/view/<str:given_unique_id>", lecture_views.eachLectures),
+    path("lecture/create/<str:course_id_to_upload>", lecture_views.createPage),
+    path("lecture/upload/", lecture_views.lectureUploaded),
+    path("lecture/edit/<str:lecture_unique_id>", lecture_views.editLecturePage),
+    path("lecture/edit/upload/<str:lecture_unique_id>", lecture_views.editLectureUpload),
     
     # all forum related things
     path("forum/", forum_views.forumPage),
@@ -63,6 +67,15 @@ urlpatterns = [
     path("forum/upload/", forum_views.forumUploaded),
     path("forum/view/<str:given_unique_id>", forum_views.eachForumView),
     path("forum/submit/<str:forum_unique_id>", forum_views.forumAnswerUpload),
+
+    # all announcement related things.
+    path("news/", course_views.newsPage),
+    path("news/create/<str:course_id_to_upload>", course_views.createPage),
+    path("news/upload/", course_views.newsUploaded),
+    path("news/edit/<str:news_unique_id>", course_views.editNewsPage),
+    path("news/edit/upload/<str:news_unique_id>", course_views.editNewsUpload),
+
+
 
     path("", login_views.homePage) # keep this in last.
 ]

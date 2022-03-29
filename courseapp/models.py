@@ -17,3 +17,11 @@ class AVAILABLE_COURSES(models.Model):
 	lecture_series_number = models.IntegerField(default=0) # Needs to be updated whenever new lecture added # Backend handlingI
 	test_series_number = models.IntegerField(default=0) # Same.
 	forum_series_number = models.IntegerField(default=0) # Same.
+	news_series_number = models.IntegerField(default=0) # Same.
+
+class ALL_ANOUNCEMENT(models.Model):
+	news_title = models.CharField(max_length=FORUM_TITLE_LENGTH)
+	news_description = models.TextField() 
+	news_datetime = models.DateTimeField(auto_now_add=True) # upload date.
+	news_unique_id = models.CharField(max_length=TEST_UNIQUE_ID) # "course_id(10):forum_series_number(2)"
+	course_mapping = models.ForeignKey("courseapp.AVAILABLE_COURSES", on_delete=models.CASCADE)
