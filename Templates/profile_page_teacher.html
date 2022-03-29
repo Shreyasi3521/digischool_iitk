@@ -3,45 +3,26 @@
   <head>
     <meta charset="UTF-8">
     {% load static %}
+    <link rel="stylesheet" href="{% static 'stylechart.css' %}" />
+    {% load static %}
     <link rel="stylesheet" href="{% static 'homepage.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'test1.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'test_each_page.css' %}">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-   </head>
+    <style>
+      body {
+    {% load static %}
+    background-image: url("{% static 'pexels-photo-6672227.jpeg' %}");
+}
+    </style>
+  </head>
 <body>
-    <nav class="navbar">
-        <!-- LOGO -->
-        <div class="logo"></div>
-        <!-- NAVIGATION MENU -->
-        <ul class="nav-links">
-
-        <!-- NAVIGATION MENUS -->
-        <div class="menu">
-        <li><a href="homepage.html">Home</a></li>
-        <li class="services">
-          {% load static %}
-        <a  class="profile-top" href="homepage.html"><img src="{% static 'profile_photo.jpg' %}" alt="Profile" style="width:48px;height:48px;"> </a>
-        
-        <!-- DROPDOWN MENU -->
-        <ul class="dropdown">
-        <li><button id="edit-profile">Edit profile</button></li>
-        <li><button id="change-password">Change password</button></li>
-        <li><a class="logout" href="index.html">Log out</a></li>
-
-        </ul>
-        </li>
- 
-        </div>
-
-        </ul>
-
-        </nav>
-
-
-
-        <!-- side  NAVIGATION MENUS -->
   <div class="sidebar">
     <div class="logo-details">
         <div class="logo_name">Dashboard</div>
@@ -70,13 +51,6 @@
        </a>
        <span class="tooltip">Tests</span>
      </li>
-     <!--<li>
-       <a href="#">
-        <i class='bx bxs-report'></i>
-         <span class="links_name">Progress Report</span>
-       </a>
-       <span class="tooltip">Progress resport</span>
-     </li>-->
      <li>
        <a href="/forum/">
         <i class='bx bxs-comment-detail' ></i>
@@ -85,11 +59,11 @@
        <span class="tooltip">Forum</span>
      </li>
      <li>
-       <a href="/contact/">
+       <a href="/news/">
         <i class='bx bx-chat' ></i>
-         <span class="links_name">Contact Us</span>
+         <span class="links_name">Announcement</span>
        </a>
-       <span class="tooltip">Contact Us</span>
+       <span class="tooltip">Announcement</span>
      </li>
      <li>
        <a href="/logout/">
@@ -101,22 +75,15 @@
      
     </ul>
   </div>
-
-
-  
-        <!-- Student profile in home page with photo and details -->
+=
   <div class="main">
-
       <section class="profile-section"> 
         <table class="details-table" >
             <tr style= " text-align: left;">
-              {% load static %}
-              <th style="width:30%"><a  class="profile-bot" ><img src="{% static 'profile_photo.jpg' %}" alt="Profile" style="width:200px;height:200px;; border-radius:50%;"> </a>
+              <th style="width:30%"><a  class="profile-bot" ><img src="{{MEDIA_URL}}{{profile_data.user_profile_photo}}" alt="Profile" style="width:200px;height:200px;; border-radius:50%;"> </a>
                 <br><form style="margin-left: 10%;margin-right: 10%;"action="/profile/edit/" method="get"><button type="submit"  class="btn btn-info">Edit Profile</button></form>
                 </th>
               <th>
-                
-
                 <table>
                     <tr>
                     <th class="profile-data" style="width:50%"><a >Name : </a></th>
@@ -143,51 +110,100 @@
           </table>
       </section>
 
-
-    <!-- Student profile ranks -->
-      <section>
-          <div class="ranks">
-            <table>
-                <tr>
-                    <th class= "profile-rank" style="width:0%"><div class="class-rank">
-                        <h3>Class Rank</h3>
-                        <h1>122</h1>
-                    </div></th>
-                    <th class= "profile-rank" style="width:0%"><div class="school-rank">
-                        <h3>School Rank</h3>
-                        <h1>5567</h1>
-                    </div></th>
-                <th class= "profile-rank" style="width:0%"><div class="city-rank">
-                        <h3>City Rank</h3>
-                        <h1>55607</h1>
-                    </div></th>
-                    <th class= "profile-rank" style="width:0%"><div class="state-rank">
-                        <h3>State Rank</h3>
-                        <h1>55670</h1>
-                    </div></th>
-                </tr>
-            </table>
-            
-
-          </div>
-
-
-    <!-- Student performance   -->
-
-      </section>
       <section class="performance"> 
         <div class="performance-graph">
             <br>
             <h1>Student Performance</h1>
-            {% load static %}
-            <a class="performance-picture"><img src="{% static 'student_performance.png' %}" alt="Profile" style="width:40%;height:30%;"> </a>
-      
+            <div class="container">
+                <div class="row">
+                  <div class="col-lg-10">
+                    <div class="subject">
+                      <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
+                      <ul class="nav-links">
+                        {% for course_id in all_course_list %}
+                        {% for i, s_c_value in subject_code.items %}
+                        {% if s_c_value.0 == course_id|slice:"0:2" %}
+                        <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;' class="course" id="course-{{ i|add:'1' }}">{{ s_c_value.1 }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                        <div class="active">     
+                        </div>
+                      </ul>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              {% for each_course_id in all_course_list %}
+              {% for i, s_c_value in subject_code.items %}
+              {% if s_c_value.0 == each_course_id|slice:"0:2" %}
+              <div class="course-content">
+                <div class="course-{{i|add:'1'}}">
+                  
+                  <canvas class="chart{{i}}" width="700px" id="chart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const labels = {{test_all_answer_list.i.2}};
+
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "Average",
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: {{test_all_answer_list.i.0}},
+            barPercentage: 0.5,
+            barThickness: 40,
+            maxBarThickness: 40,
+            minBarLength: 2,
+            order: 2,
+          },
+
+        ],
+      };
+
+      const config = {
+        type: "bar",
+        data: data,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Student Progress",
+            },
+          },
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: "Marks",
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Progress",
+              },
+            },
+          },
+        },
+      };
+
+      const myChart = new Chart(document.getElementById("chart{{i}}"), config);
+    </script>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+              {% endfor %}
         </div>
       </section>
   </div>
 
 
-
+  {% load static %}
+  <script src="{% static 'test1.js' %}"></script>
   {% load static %}
   <script src="{% static 'homepage.js' %}"></script>
 </body>

@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/343524fab9.js" crossorigin="anonymous"></script>
+    
    </head>
 <body>
   <div class="sidebar">
@@ -50,11 +51,11 @@
           <span class="tooltip">Forum</span>
         </li>
         <li>
-          <a href="/contact/">
+          <a href="/news/">
           <i class='bx bx-chat' ></i>
-          <span class="links_name">Feedback</span>
+          <span class="links_name">Announcement</span>
           </a>
-          <span class="tooltip">Feedback</span>
+          <span class="tooltip">Announcement</span>
         </li>
         <li>
           <a href="/logout/">
@@ -67,6 +68,7 @@
   </div>
   <div class="main">
     <div class="subject">
+      <h1 class="sub" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px; text-align: center;'>Student Lectures </h1>
       <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
       <ul class="nav-links">
         {% for k, course_id in all_course_list.items %}
@@ -79,28 +81,27 @@
         <div class="active">     
         </div>
     </ul>
-  </div>
-      
-      {% for e , each_course_id in all_course_list.items %}
+    </div>
+    {% for e , each_course_id in all_course_list.items %}
       {% for l, lecture_of_courses in lecture_all_list.items  %}
-            {% if l == e %}
-        <div class="course-content">  
-          <div class="course-{{e|add:'1'}}">
-            {% for lecture_each in lecture_of_courses%}
-            <div class="pending-content">
-                <details class="style7">
-                <summary><span style="overflow-wrap: break-word;font-size:15px;" class="moon-new">{{lecture_each.lecture_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{lecture_each.lecture_datetime.day}}/{{lecture_each.lecture_datetime.month}}/{{lecture_each.lecture_datetime.year}} {{lecture_each.lecture_datetime.hour}}:{%if lecture_each.lecture_datetime.minute < 10 %}0{%endif%}{{lecture_each.lecture_datetime.minute}}</strong></span></summary>
-                <div class="content">
-                    <form action="/lecture/view/{{lecture_each.lecture_unique_id}}" method="get"><button type="submit" style="height: 30px;" class="btn btn-outline-secondary pending-course-details" value="View Test">View Lecture</button></form>
-                </div>
-                  </details>
-                </div>
+        {% if l == e %}
+          <div class="course-content">
+            <div class="course-{{e|add:'1'}}">
+              {% for lecture_each in lecture_of_courses%}
+              <div class="pending-content">
+                  <details class="style7">
+                  <summary><span style="overflow-wrap: break-word;font-size:15px;" class="moon-new">{{lecture_each.lecture_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{lecture_each.lecture_datetime.day}}/{{lecture_each.lecture_datetime.month}}/{{lecture_each.lecture_datetime.year}} {{lecture_each.lecture_datetime.hour}}:{%if lecture_each.lecture_datetime.minute < 10 %}0{%endif%}{{lecture_each.lecture_datetime.minute}}</strong></span></summary>
+                  <div class="content">
+                      <form action="/lecture/view/{{lecture_each.lecture_unique_id}}" method="get"><button type="submit" style="height: 30px;" class="btn btn-outline-secondary pending-course-details" value="View Test">View Lecture</button></form>
+                  </div>
+                    </details>
+                  </div>
               {%endfor%}
+            </div>
           </div>
-        </div>
         {%endif%}
-        {% endfor %}
-        {% endfor %}
+      {% endfor %}
+    {% endfor %}
   </div>
   {% load static %}
   <script src="{% static 'test.js' %}"></script>

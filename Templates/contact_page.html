@@ -9,16 +9,28 @@
         {% load static %}
         <link rel="stylesheet" href="{% static 'contact.css' %}">
         <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
+        <style>
+          .logo {
+            border-radius: 60%;
+            border: 4px solid;
+            border-color: white;
+            width: 80px;
+            height: auto;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+        </style>
     </head>
     <body>
       {% if upload_error %}
       <script>alert("There was some error!! Please try again later.")</script>
       {% endif %}
       {% if not query_submitted %}
-
         <section id="contact">
+          {% load static %}
+            <a style="position: absolute; left:5%; top:5%;" href="/"><img class="logo" src="{% static 'logo_cright.jpg' %}" alt="digiSchool"></a>
           <h3 style="font-family: 'Trebuchet MS', sans-serif; text-align: center;font-style: italic;">This project was created for a semester-course CS253 provided by IIT Kanpur.</h3>
-            <h1 class="section-header">Contact us</h1>
+
             <div class="contact-wrapper">
               <form action="/contact/submit/" method="post" id="contact-form" class="form-horizontal" role="form">{% csrf_token %}
                 <div class="form-group">

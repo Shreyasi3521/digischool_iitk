@@ -52,11 +52,11 @@
           <span class="tooltip">Forum</span>
         </li>
         <li>
-          <a href="/contact/">
+          <a href="/news/">
           <i class='bx bx-chat' ></i>
-          <span class="links_name">Feedback</span>
+          <span class="links_name">Announcement</span>
           </a>
-          <span class="tooltip">Feedback</span>
+          <span class="tooltip">Announcement</span>
         </li>
         <li>
           <a href="/logout/">
@@ -72,6 +72,7 @@
       <div class="row">
         <div class="col-lg-10">
           <div class="subject">
+            <h1 class="sub" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px; text-align: center;'>Teacher Lectures </h1>
             <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
             <ul class="nav-links">
               {% for course_id in all_course_list %}
@@ -93,10 +94,8 @@
     {% if s_c_value.0 == each_course_id|slice:"0:2" %}
     <div class="course-content">
       <div class="course-{{i|add:'1'}}">
-        <div class="go-back"> <a style="text-decoration: none;"href= "/lecture/"><button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button"  class="btn btn-default btn-block"><span style="color:black;">Go Back to Main Page</span></button></a> </div>
-        <br>
-        <div class="create-test"> <a href= "/lecture/create/{{each_course_id}}"> <button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button" class="btn btn-primary btn-block">Create a New Lecture</button></a></div>
-        <h1 style="font-weight:bold; overflow-wrap: break-word; color: white; padding: 10px;">All Lectures</h1>
+        <div class="create-test"> <a href= "/lecture/create/{{each_course_id}}"><div style="text-align:center;"><button style='width:400px; text-align: center; font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white;background-color:rgb(255, 127, 138); border-color: rgb(255, 255, 255); padding: 10px;font-size:15px;' type="button" class="btn btn-primary">Create a New Lecture</button></a></div></div>
+        <h1 style="font-weight:bold; overflow-wrap: break-word; color: white; padding: 10px;">All Uploaded Lectures</h1>
         {% for lecture_of_courses in lecture_all_list %}
         {% for lecture_each in lecture_of_courses %}
         <div class="pending-content">

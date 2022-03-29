@@ -19,7 +19,7 @@ def sectionCheck(value):
     value = value.strip()
     if len(value) != 1:
         return False
-    if value.upper() not in ["A", "B", "C", "D", "E", "F"]:
+    if value.upper() not in ["A", "B", "C", "D"]:
         return False
     return True
 

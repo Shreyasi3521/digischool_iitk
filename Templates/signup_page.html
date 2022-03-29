@@ -15,6 +15,8 @@
     {% load static %}
     <script src="{% static 'formValidation.js' %}"></script>
     <script src="https://kit.fontawesome.com/e24c3cedee.js" crossorigin="anonymous"></script>
+    <style>
+    </style>
 </head>
 
 <body>
@@ -22,7 +24,7 @@
 
     {% if error_signing %}
     <script>alert("There was an error while submission!! Either due to some invalid fields or due to server error. Retry after few minutes. If the issue persist, please reach us at 'contact us' page.")</script>
-    <!--<meta http-equiv="refresh" content="0; url='/signup/'">-->
+    <meta http-equiv="refresh" content="0; url='/signup/'">
     {% endif %}
 
     {% if user_exist %}
