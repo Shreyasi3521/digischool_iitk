@@ -21,7 +21,7 @@ from django.core.files.storage import FileSystemStorage
 
 def newsPage(request):
 	if request.POST or len(request.POST) > 0:
-		return HttpResponse("wrong method")
+		return HttpResponse(f'''<body><script>Some error occured: Incorrect HTTP Request Method.</script><meta http-equiv="refresh" content='0; url="/news/"'/></body>''')
 
 	# Session and tokens.
 	csrf_token = csrf.get_token(request)
@@ -32,13 +32,14 @@ def newsPage(request):
 		active_status = True
 		user_id = request.session["user_id"]
 
+
 	if active_status:
 		extract_user__user_signup_database = login_models.USER_SIGNUP_DATABASE.objects.get(id=user_id)
 
 		if extract_user__user_signup_database.user_category == "TEACHER":
 			school_db_teacher_entry = login_models.TEACHER_CODE_MAPPING.objects.get(teacher_email=extract_user__user_signup_database.email_address)
 			teached_courses = course_models.AVAILABLE_COURSES.objects.filter(course_instructor= school_db_teacher_entry ) # for now, it will be only one entry.
-			
+
 			if not school_db_teacher_entry.activation_status:
 				return HttpResponse(f'''<body><script>Some error occured: Maybe the teacher is still not verified, please contact us.</script><meta http-equiv="refresh" content='0; url="/logout/"'/></body>''')
 			
@@ -62,7 +63,9 @@ def newsPage(request):
 			user_courses = course_models.AVAILABLE_COURSES.objects.filter(course_id__in=all_course_id)
 			
 			news_all_list = {i:course_models.ALL_ANOUNCEMENT.objects.filter(news_unique_id__contains=each_user_course.course_id) for i, each_user_course in enumerate(user_courses)}
+			
 			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
+			
 			return render(request, "news_student.html", { "news_all_list":news_all_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
 	else:
 		# session is inactive.

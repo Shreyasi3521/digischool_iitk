@@ -91,8 +91,6 @@ body {
 }
 
 .comment {
-    border: 1px solid rgba(16, 46, 46, 1);
-    background-color: rgba(16, 46, 46, 0.973);
     float: left;
     border-radius: 5px;
     padding-left: 40px;
@@ -151,8 +149,8 @@ label {
 }
 
 form {
-    border: 1px solid rgba(16, 46, 46, 1);
-    background-color: rgba(16, 46, 46, 0.973);
+
+
     border-radius: 5px;
     padding: 20px
 }
@@ -195,11 +193,11 @@ form {
           <span class="tooltip">Forum</span>
         </li>
         <li>
-          <a href="/contact/">
+          <a href="/news/">
           <i class='bx bx-chat' ></i>
-          <span class="links_name">Feedback</span>
+          <span class="links_name">Announcement</span>
           </a>
-          <span class="tooltip">Feedback</span>
+          <span class="tooltip">Announcement</span>
         </li>
         <li>
           <a href="/logout/">
@@ -221,26 +219,26 @@ form {
                             <div class="lecture-video-box">
                               <video src="{{MEDIA_URL}}{{given_lecture.video_server_name}}" style="width:100%" unmuted class="lecture-video" controls></video>
                             </div>
-                            <div class="lecture-study-material">
-                              <p onclick="show_by_id('study-material-files-list')">Lecture Material</p>
-                              <ul class="study-material-files-list" id="study-material-files-list">
-                                <li class="file-item">file 1 </li>
-                                <li class="file-item">file 2 </li>
-                                <li class="file-item">file 3 </li>
-                              </ul>
-                            </div>
+                            
                           </div>
                     </div>
                 </div>
             </div>
-            <br>
             <div class="row">
                 <div class="col-lg-12">
                     <form id="algin-form" action="/forum/create/{{course_id}}" method="get"> {% csrf_token %}
                         <div class="form-group">
                         </div>
-                        <div class="form-group"> <button type="submit" id="post" class="btn">Create a discussion?</button> </div>
+                        <div class="form-group" style="text-align: center;" > <button type="submit" id="post" class="btn">Create a discussion?</button> </div>
                     </form>
+                </div>
+                <div class="lecture-study-material">
+                  <p onclick="show_by_id('study-material-files-list')">Lecture Material</p>
+                  <ul class="study-material-files-list" id="study-material-files-list">
+                    <li class="file-item">file 1 </li>
+                    <li class="file-item">file 2 </li>
+                    <li class="file-item">file 3 </li>
+                  </ul>
                 </div>
             </div>
         </div>

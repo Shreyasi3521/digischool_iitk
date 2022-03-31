@@ -59,6 +59,7 @@ def testPage(request):
 			
 			test_all_list = {i:test_models.ALL_TESTS.objects.filter(test_unique_id__contains=each_user_course.course_id) for i, each_user_course in enumerate(user_courses)}
 			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
+			
 			return render(request, "test_student.html", { "test_all_list":test_all_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
 	else:
 		# session is inactive.

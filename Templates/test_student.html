@@ -84,12 +84,9 @@
       {% for e , each_course_id in all_course_list.items %}
       {% for l, test_of_courses in test_all_list.items  %}
             {% if l == e %}
+            
         <div class="course-content">
-          
           <div class="course-{{e|add:'1'}}">
-            
-            
-            
             {% for test_each in test_of_courses%}
             {% if current_datetime.timestamp > test_each.start_datetime.timestamp %} <!--This is because time stamp looks from jan 1970 and so current's timestamp-->
             {% if current_datatime.timestamp > test_each.end_datetime.timestamp %}

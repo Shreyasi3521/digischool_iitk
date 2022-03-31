@@ -17,12 +17,11 @@ import datetime
 from backend_functions.universal_values import *
 import os, json
 from digischool.settings import BASE_DIR
-from django.core.files.storage import FileSystemStorage
-
+from forumapp import validation_check
 
 def lecturePage(request):
 	if request.POST or len(request.POST) > 0:
-		return HttpResponse("wrong method")
+		return HttpResponse(f'''<body><script>alert("Some error occured: Incorrect Http Method")</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
 
 	# Session and tokens.
 	csrf_token = csrf.get_token(request)
@@ -41,13 +40,13 @@ def lecturePage(request):
 			teached_courses = course_models.AVAILABLE_COURSES.objects.filter(course_instructor= school_db_teacher_entry ) # for now, it will be only one entry.
 			
 			if not school_db_teacher_entry.activation_status:
-				return HttpResponse(f'''<body><script>Some error occured: Maybe the teacher is still not verified, please contact us.</script><meta http-equiv="refresh" content='0; url="/logout/"'/></body>''')
+				return HttpResponse(f'''<body><script>alert("Some Error Occured: Maybe the teacher is still not verified, Please contact us.")</script><meta http-equiv="refresh" content='0; url="/logout/"'/></body>''')
 			
 			all_course_id = [each_teached_course.course_id for each_teached_course in teached_courses]
 
 			lecture_all_list = [lecture_models.ALL_LECTURES.objects.filter(lecture_unique_id__contains=each_user_course.course_id) for each_user_course in teached_courses]
 
-			return render(request, "lecture_teacher.html", { "lecture_all_list":lecture_all_list, "all_course_list":all_course_id,  "subject_code": { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
+			return render(request, "lecture_teacher.html", { "lecture_all_list":lecture_all_list, "all_course_list":all_course_id,  "subject_code": { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))} })
 
 		if extract_user__user_signup_database.user_category == "STUDENT":
 
@@ -59,19 +58,22 @@ def lecturePage(request):
 
 			all_course_id = all_course_id.course_id_array
 			all_course_id = all_course_id.strip().split(" ")
+			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
 
 			user_courses = course_models.AVAILABLE_COURSES.objects.filter(course_id__in=all_course_id)
 			
 			lecture_all_list = {i:lecture_models.ALL_LECTURES.objects.filter(lecture_unique_id__contains=each_user_course.course_id) for i, each_user_course in enumerate(user_courses)}
-			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
-			return render(request, "lecture_student.html", { "lecture_all_list":lecture_all_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
+			
+			return render(request, "lecture_student.html", { "lecture_all_list":lecture_all_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}})
 	else:
 		# session is inactive.
 		return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
+
 		
 def createPage(request, course_id_to_upload):
-	if request.POST or len(request.POST) > 0 or len(request.GET) > 0: # need to confirm.
-		return HttpResponse(f'''<body><script>Some error occured: Incorrect HTTP Request Method.</script><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
+	if request.POST or len(request.POST) > 0:
+		return HttpResponse(f'''<body><script>Some error occured: Incorrect HTTP Request Method.</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
+	
 	# Session and tokens.
 	csrf_token = csrf.get_token(request)
 	active_status = False
@@ -92,19 +94,20 @@ def createPage(request, course_id_to_upload):
 				selected_course_id_check = True
 				course_in_context = each_teached_course
 				break
+		
 		if not selected_course_id_check:
-			return HttpResponse(f'''<body><script>Some error occured: This is not the course for the current teacher.</script><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
+			return HttpResponse(f'''<body><script>Some error occured: This is not the course for the current teacher.</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
 		
 		full_course_name = FULL_NAME[AVAILABLE_SUBJECTS.index(course_id_to_upload[0:2])]
 
 		return render(request, "lecture_create.html", {"csrf_token" : csrf_token, "course_id":course_id_to_upload,  "full_course_name": full_course_name })
 	else:
 		# session is inactive or user is not "TEACHER"
-		return HttpResponse(f'''<body><script>alert("Unauthorised Access.")</script><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
+		return HttpResponse(f'''<body><script>alert("Unauthorised Access.")</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
 
 def lectureUploaded(request):
 	if request.GET or len(request.GET) > 0:
-		return HttpResponse(f'''<body><script>Some error occured: Incorrect HTTP Request Method.</script><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
+		return HttpResponse(f'''<body><script>Some error occured: Incorrect HTTP Request Method.</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
 
 	# Session and tokens.
 	csrf_token = csrf.get_token(request)
@@ -131,7 +134,6 @@ def lectureUploaded(request):
 			lecture_files = request.FILES.get("lecture-files", None)
 			video_file = request.FILES.get("video-file", None)
 
-		# here validate.
 		selected_course_id_check = False
 		for each_teached_course in teached_courses:
 			if each_teached_course.course_id == selected_course_id:
@@ -139,13 +141,21 @@ def lectureUploaded(request):
 				course_in_context = each_teached_course
 				break
 
-		lecture_title_check = True
-		lecture_files_check=True
-		video_files_check=True
+		lecture_title_check = validation_check.titleCheck(lecture_title)
+		
+		lecture_files_check= True
+		if (not lecture_files.name):
+			lecture_files_check = False
+		# lecture files are not compulsory.
+
+		video_files_check= True
+		if (not video_file.name):
+			video_files_check = False
 
 
-		if not (selected_course_id_check and lecture_title_check and lecture_files_check and video_files_check):
-			return HttpResponse(f'''<body><script>alert("Some error occured: some inputs were invalid.")</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')
+		if not (selected_course_id_check and lecture_title_check and video_files_check):
+			return HttpResponse(f'''<body><script>alert("Some error occured: some inputs were invalid.")</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
+
 
 		lecture_series_number_new = course_in_context.lecture_series_number + 1
 		course_in_context.lecture_series_number = lecture_series_number_new
@@ -153,25 +163,29 @@ def lectureUploaded(request):
 
 		lecture_unique_id = str(selected_course_id) + (str(lecture_series_number_new) if len(str(lecture_series_number_new)) == 2 else "0" + str(lecture_series_number_new))
 
+		if not lecture_files_check:
+			files = None
+
 		try:
 			setting_lecture = lecture_models.ALL_LECTURES(lecture_title = lecture_title,  files=lecture_files, lecture_unique_id= lecture_unique_id, course_mapping = course_in_context, video_server_name= video_file)
 			setting_lecture.save()
 		except:
-			"""----------Some error while setting test.---------------"""
+			"""----------Some error while setting lecture.---------------"""
 			lecture_series_number_new = max(course_in_context.lecture_series_number - 1, 0)
 			course_in_context.lecture_series_number = lecture_series_number_new
 			course_in_context.save()
-			return HttpResponse(f'''<body><script>alert("Some error occured: Server issue. Please try again later. If issue persists contact us.")</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')
+			return HttpResponse(f'''<body><script>alert("Some error occured: Server issue. Please try again later. If issue persists contact us.")</script><meta http-equiv="refresh" content='0; url="/lecture/create/{selected_course_id}"'/></body>''')
 		
-		"""----------test Succesfully Created.---------------"""
-		return HttpResponse(f'''<body><script>alert("Lecture is sccessfully created!!")</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')
+		"""----------lecture Succesfully Created.---------------"""
+		return HttpResponse(f'''<body><script>alert("Lecture is sccessfully created!!")</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
 	else:
 		# session is inactive or user is not "TEACHER"
-		return HttpResponse(f'''<body><script>alert("Unauthorised Access.")</script><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
+		return HttpResponse(f'''<body><script>alert("Unauthorised Access.")</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
+
 
 def eachLectures(request, given_unique_id):
 	if request.POST or len(request.POST) > 0:
-		return HttpResponse(f'''<body><script>Some error occured: Incorrect HTTP Request Method.</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')
+		return HttpResponse(f'''<body><script>Some error occured: Incorrect HTTP Request Method.</script><meta http-equiv="refresh" content='0; url="/lecture/"'/></body>''')
 		
 	# Session and tokens.
 	csrf_token = csrf.get_token(request)
@@ -263,13 +277,9 @@ def editLecturePage(request, lecture_unique_id):
 					selected_test = each_lecture_in_course
 					course_in_context = each_teached_course
 					break
-		try:
-			if int(lecture_unique_id[10:]) > course_in_context.lecture_unique_id:
-				autheticated = False
-		except:
-			autheticated = False
+
 		if not autheticated:
-				return HttpResponse(f'''<body><script>alert("Unauthorised Access.")</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')
+			return HttpResponse(f'''<body><script>alert("Unauthorised Access.")</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')
 		
 		full_course_name = FULL_NAME[AVAILABLE_SUBJECTS.index(lecture_unique_id[0:2])]
 

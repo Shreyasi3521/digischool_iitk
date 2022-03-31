@@ -114,11 +114,8 @@ details[open] summary::before {
 }
 
 body{
-  background-image: url('pexels-photo-6672227.jpeg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;}
-
+  background-color: black;
+}
   .topright {
       position: absolute;
       top: 8px;

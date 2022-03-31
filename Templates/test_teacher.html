@@ -90,8 +90,11 @@
     </div>
     {% for each_course_id in all_course_list %}
     {% for i, s_c_value in subject_code.items %}
+    
     {% if s_c_value.0 == each_course_id|slice:"0:2" %}
+
     <div class="course-content">
+      
       <div class="course-{{i|add:'1'}}">
         <div class="go-back"> <a style="text-decoration: none;"href= "/test/"><button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button"  class="btn btn-default btn-block"><span style="color:black;">Go Back to Main Page</span></button></a> </div>
         <br>
