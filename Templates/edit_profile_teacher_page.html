@@ -83,6 +83,7 @@
    <!-- edit  Student   profile   -->
 <div class="edit-profile-main">
     <p style="text-align: center" ><span style="color:red; font-weight:bold" >Important: </span>These details are allowed to be edited only <span style="font-weight: bold;">once</span>.</p>
+    <p>In order to change password, please go to this link, <a href="/forgot/">Change</a></p>
     <section class="edit-profile-section"> 
         <form action="/profile/edit/status/" enctype="multipart/form-data" method="post">{%csrf_token%}
       <table class="edit-details-table" >
@@ -94,7 +95,7 @@
               {% load static %}
               <img src="{% static 'profile_photo.jpg' %}" alt="Profile" height="100px" width="100px"></label>
   
-              <input name="profile_img" type="file" id="fileField"  accept="image/*" > </th>
+              <input name="imagefile" type="file" id="fileField"  accept="image/*" > </th>
             <th>
                 
               <table>

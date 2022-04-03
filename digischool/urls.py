@@ -36,7 +36,10 @@ urlpatterns = [
     path("logout/", login_views.logoutPage),
     path("contact/", login_views.contactPage),
     path("contact/submit/", login_views.contactPageSubmitted),
-
+    path("forgot/", login_views.forgotPasswordPage),
+    path("forgot/verify/", login_views.forgotPasswordSendEmail),
+    path('forgot/verify/otp/', login_views.forgotPasswordOTPVerify),
+    path('forgot/change/', login_views.changePassword)
 
     path("profile/", profile_views.profilePage),
     path("profile/edit/", profile_views.editProfilePage),

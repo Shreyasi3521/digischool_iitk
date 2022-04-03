@@ -79,8 +79,9 @@
    <!-- edit  Student   profile   -->
 <div class="edit-profile-main">
     <p style="text-align: center" ><span style="color:red; font-weight:bold" >Important: </span>These details are allowed to be edited only <span style="font-weight: bold;">once</span>.<br>These details appears on your grade-sheet so, <span style="font-weight: bold; font-style: italic;">please enter the correct details carefully</span>.</p>
+    <p>In order to change password, please go to this link, <a href="/forgot/">Change</a></p>
     <section class="edit-profile-section"> 
-        <form action="/profile/edit/status/" method="post">{%csrf_token%}
+        <form action="/profile/edit/status/" enctype="multipart/form-data" method="post">{%csrf_token%}
       <table class="edit-details-table" >
           
           <tr style= " text-align: left;">
@@ -89,7 +90,7 @@
             <th style="width:30%"><a  class="edit-profile-bot"><label for="fileField">
               <img src="profile_photo.jpg" alt="Profile" height="100px" width="100px"></label>
   
-              <input name="profile_img" type="file" id="fileField" name="file" accept="image/*" > </th>
+              <input name="profile_img" type="file" id="fileField" name="imagefile" accept="image/*" > </th>
             <th>
                 
               <table>

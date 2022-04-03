@@ -1,7 +1,7 @@
 from courseapp import models as course_models
 from . import universal_values
 from loginapp import models as login_models
-
+import os, json
 def auto_assign_course(user_cls, user_sec, user_category):
 	if user_category == "STUDENT":
 		unique_id = user_cls + user_sec + str(universal_values.OFFERING_YEAR)
@@ -14,24 +14,22 @@ def removing_entries():
 	pass
 	# remove loginapp.models.USER_SIGNUP_DATABASE entries if user is not verfied and time is excceded by 2 (ALLOWED_ENTRY_TIME) days.
 
-def returnStats(test_each,student_id):
+def returnStats(test_each, student_id):
 
 	test_answer_file_name = test_each.test_data
 	test_answer_file = open(test_answer_file_name,"r")
 	test_answer = json.load(test_answer_file)
 
-	SCORES = list()
 	n = 0
 	sum_score = 0
-	individual_score = 0
+	individual_score = float('-inf')
 	for keys in test_answer:
 		if str(keys).isnumeric():
-			student_answer_file_name = test_each.test_data
+			student_answer_file_name = test_answer[keys]
 			student_answer_file = open(student_answer_file_name,"r")
 			student_answer = json.load(student_answer_file)
 			if student_answer["SCORE"] != float("inf"):
-				sum_score +=int(student_answer["SCORE"])
-				SCORES.append(int(student_answer["SCORE"]))
+				sum_score += int(student_answer["SCORE"])
 				n += 1
 				if str(student_id) == str(keys):
 					individual_score = int(student_answer["SCORE"])

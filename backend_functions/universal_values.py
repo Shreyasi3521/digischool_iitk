@@ -28,7 +28,7 @@ PROFILE_PIC_PATH_LENGTH = 200
 DEFAULT_PROFILE_PHOTO = 'Templates/default_profile_photo.jpg'
 
 AVAILABLE_SECTIONS = ["AS", "BS", "CS", "DS"]
-AVAILABLE_SUBJECTS = ["MA", "SC", "EN", "HI", "SS"]
+AVAILABLE_SUBJECTS = ["MA", "SC", "EN", "HI", "SS"] 
 FULL_NAME = ["Maths", "Science", "English", "Hindi", "Social Studies"]
 HIGHEST_CLASS_AVAILABLE = 10
 LOWEST_CLASS_AVAILABLE = 6
@@ -43,7 +43,7 @@ COURSE_ID_ARRAY_MAX_LENGTH = (len(AVAILABLE_SECTIONS) + 1) * (COURSE_ID_LENGTH +
 LECTURE_TITLE_LENGTH = 100
 LECTURE_UNIQUE_ID = COURSE_ID_LENGTH + 2
 
-TEST_TITLE_LENGTH = 100
+TEST_TITLE_LENGTH = 200
 TEST_INSTRUCTION_LENGTH = 100
 TEST_UNIQUE_ID = COURSE_ID_LENGTH + 2
 FILES_ALLOWED = 10
@@ -56,3 +56,10 @@ MAX_QUESTIONS = 20
 
 FORUM_TITLE_LENGTH = 100
 FORUM_QUES_LEN = 500
+
+ALLOWED_FILE_TYPE = [".svg",'.jpeg', '.jpg', '.tex', '.zip', '.xls', '.xlsx', '.doc', '.docx', '.txt', '.rtf', '.pdf', '.png', '.pptx', '.ppt']
+ALLOWED_VIDEO_FILE_TYPE = ['.mp4', '.m4v','.mpg','.wmv','.mov','.avi']
+
+ALLOWED_IMAGE_FILE_TYPE = ['.jpeg', '.jpg', '.png', ".svg"]
+
+

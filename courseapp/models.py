@@ -20,8 +20,8 @@ class AVAILABLE_COURSES(models.Model):
 	news_series_number = models.IntegerField(default=0) # Same.
 
 class ALL_ANOUNCEMENT(models.Model):
-	news_title = models.CharField(max_length=FORUM_TITLE_LENGTH)
+	news_title = models.TextField()
 	news_description = models.TextField() 
-	news_datetime = models.DateTimeField(auto_now_add=True) # upload date.
+	news_datetime = models.DateTimeField(auto_now=True) # upload date.
 	news_unique_id = models.CharField(max_length=TEST_UNIQUE_ID) # "course_id(10):forum_series_number(2)"
 	course_mapping = models.ForeignKey("courseapp.AVAILABLE_COURSES", on_delete=models.CASCADE)
