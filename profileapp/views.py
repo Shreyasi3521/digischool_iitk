@@ -59,7 +59,7 @@ def profilePage(request):
 			extract_user__user_profile_database = profile_models.USER_PROFILE_DATABASE.objects.get(user_signup_db_mapping=extract_user__user_signup_database)
 			profile_data = extract_user__user_profile_database
 
-			return render(request, "profile_page_teacher.html", {"profile_data":profile_data,"user_data" : profile_models.USER_PROFILE_DATABASE.objects.filter(user_signup_db_mapping=extract_user__user_signup_database)[0], "test_all_list":test_all_list, "all_course_list":all_course_id,  "subject_code": { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
+			return render(request, "profile_page_teacher.html", {"profile_data":profile_data,"user_data" : profile_models.USER_PROFILE_DATABASE.objects.filter(user_signup_db_mapping=extract_user__user_signup_database)[0],  "all_course_list":all_course_id,  "subject_code": { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
 
 		if extract_user__user_signup_database.user_category == "STUDENT":
 			selected_user_class = extract_user__user_signup_database.user_class
