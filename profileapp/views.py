@@ -16,7 +16,7 @@ import datetime
 from backend_functions.universal_values import *
 from backend_functions import backend_handling_functions
 from loginapp import validation_check
-
+from digischool.settings import MEDIA_URL
 def profilePage(request):
 	if request.POST or len(request.POST) > 0:
 		return HttpResponse(f'''<body><script>alert("Some error occured: Incorrect Http Method")</script><meta http-equiv="refresh" content='0; url="/profile/"'/></body>''')
@@ -59,7 +59,7 @@ def profilePage(request):
 			extract_user__user_profile_database = profile_models.USER_PROFILE_DATABASE.objects.get(user_signup_db_mapping=extract_user__user_signup_database)
 			profile_data = extract_user__user_profile_database
 
-			return render(request, "profile_page_teacher.html", {"profile_data":profile_data,"user_data" : profile_models.USER_PROFILE_DATABASE.objects.filter(user_signup_db_mapping=extract_user__user_signup_database)[0],  "all_course_list":all_course_id,  "subject_code": { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
+			return render(request, "profile_page_teacher.html", {"MEDIA_URL":MEDIA_URL,"profile_data":profile_data,"user_data" : profile_models.USER_PROFILE_DATABASE.objects.filter(user_signup_db_mapping=extract_user__user_signup_database)[0],  "all_course_list":all_course_id,  "subject_code": { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
 
 		if extract_user__user_signup_database.user_category == "STUDENT":
 			selected_user_class = extract_user__user_signup_database.user_class
@@ -90,7 +90,7 @@ def profilePage(request):
 
 			extract_user__user_profile_database = profile_models.USER_PROFILE_DATABASE.objects.get(user_signup_db_mapping=extract_user__user_signup_database)
 			profile_data = extract_user__user_profile_database
-			return render(request, "profile_page_student.html", {"test_all_answer_list":test_all_answer_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now(),"user_data" : profile_data})
+			return render(request, "profile_page_student.html", {"MEDIA_URL":MEDIA_URL,"test_all_answer_list":test_all_answer_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now(),"user_data" : profile_data})
 		# session is inactive.
 		return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
 		
@@ -113,9 +113,9 @@ def editProfilePage(request):
 
 		if not extract_user__user_profile_database.edit_once:
 			if extract_user__user_signup_database.user_category == "TEACHER":
-				return render(request, "edit_profile_teacher_page.html", {"csrf_token":csrf_token})
+				return render(request, "edit_profile_teacher_page.html", {"MEDIA_URL":MEDIA_URL,"profile_data":extract_user__user_profile_database,"csrf_token":csrf_token})
 			if extract_user__user_signup_database.user_category == "STUDENT":
-				return render(request, "edit_profile_student_page.html", {"csrf_token":csrf_token})
+				return render(request, "edit_profile_student_page.html", {"MEDIA_URL":MEDIA_URL,"profile_data":extract_user__user_profile_database,"csrf_token":csrf_token})
 		else:
 			return render(request, "edit_page_not_allowed.html", {"user_category":extract_user__user_signup_database.user_category, "preview_user": extract_user__user_signup_database, "preview_profile": extract_user__user_profile_database})
 
@@ -205,7 +205,7 @@ def editProfilePagePosted(request):
 				if not ((not other_error) and first_name_check and last_name_check and user_class_check and user_section_check and contact_check and r_number_check and school_name_check and father_name_check and mother_name_check and image_files_check):
 					# handling tempered data.
 					# The incoming data was corrupted (maybe using burpsuite.) (This is because, all the above validations were done at frontend, but still the value arent valid values.)
-					return render(request, 'student_edit_profile_page.html', {"csrf_token": csrf_token , "error_edit" : True})
+					return render(request, 'edit_profile_student_page.html', {"MEDIA_URL":MEDIA_URL,"csrf_token": csrf_token , "error_edit" : True})
 
 				"""----------Now all the input values are valid.---------------"""
 
@@ -242,7 +242,7 @@ def editProfilePagePosted(request):
 					"""----------Some error while setting.---------------"""
 					extract_user__user_profile_database.edit_once = False
 					extract_user__user_profile_database.save()
-					return render(request, 'student_edit_profile_page.html', {"csrf_token": csrf_token , "error_edit" : True})
+					return render(request, 'edit_profile_student_page.html', {"MEDIA_URL":MEDIA_URL,"csrf_token": csrf_token , "error_edit" : True})
 				
 				"""----------User Succesfully Edited.---------------"""
 				return HttpResponse(f'''<body><script>Details are successfully Edited.</script><meta http-equiv="refresh" content='0; url="/profile/"'/></body>''')
@@ -291,7 +291,7 @@ def editProfilePagePosted(request):
 				if not (no_error and first_name_check and last_name_check  and contact_check and r_number_check and school_name_check and image_files_check):
 				# handling tempered data.
 				# The incoming data was corrupted (maybe using burpsuite.) (This is because, all the above validations were done at frontend, but still the value arent valid values.)
-					return render(request, "edit_profile_teacher_page.html", {"csrf_token": csrf_token , "error_edit" : True})
+					return render(request, "edit_profile_teacher_page.html", {"MEDIA_URL":MEDIA_URL,"csrf_token": csrf_token , "error_edit" : True})
 
 				"""----------Now all the input values are valid.---------------"""
 
@@ -316,12 +316,12 @@ def editProfilePagePosted(request):
 					"""----------Some error while setting.---------------"""
 					extract_user__user_profile_database.edit_once = False
 					extract_user__user_profile_database.save()
-					return render(request, 'teacher_edit_profile_page.html', {"csrf_token": csrf_token , "error_edit" : True})
+					return render(request, 'edit_profile_teacher_page.html', {"csrf_token": csrf_token , "error_edit" : True})
 			
 				"""----------User Succesfully Edited.---------------"""
 				return HttpResponse(f'''<body><script>Details are successfully Edited.</script><meta http-equiv="refresh" content='0; url="/profile/"'/></body>''')
 		else:
-			return render(request, "edit_page_not_allowed.html", {"user_category":extract_user__user_signup_database.user_category, "preview_user": extract_user__user_signup_database, "preview_profile": extract_user__user_profile_database})
+			return render(request, "edit_page_not_allowed.html", {"MEDIA_URL":MEDIA_URL,"user_category":extract_user__user_signup_database.user_category, "preview_user": extract_user__user_signup_database, "preview_profile": extract_user__user_profile_database})
 	else:
 		# session is inactive.
 		return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')

@@ -55,10 +55,10 @@ def testPage(request):
 			all_course_id = course_models.CLASS_COURSES_MAPPING.objects.get(unique_id=generated_unique_id)
 			all_course_id = all_course_id.course_id_array
 			all_course_id = all_course_id.strip().split(" ")
-			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
+			
 
 			user_courses = course_models.AVAILABLE_COURSES.objects.filter(course_id__in=all_course_id)
-			
+			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
 			test_all_list = {i:test_models.ALL_TESTS.objects.filter(test_unique_id__contains=each_user_course.course_id) for i, each_user_course in enumerate(user_courses)}
 			
 			return render(request, "test_student.html", { "test_all_list":test_all_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})
@@ -347,9 +347,11 @@ def eachTestView(request, given_unique_id):
 				return HttpResponse(f'''<body><script>alert("Some error occured, maybe the test is deleted. Contact us.")</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')	
 
 			submit_status = False
-			student_answer_file_name = test_answer.get(extract_user__user_signup_database.id, False)
+			student_answer_file_name = test_answer.get(str(extract_user__user_signup_database.id), False)
 			student_answer = {"SCORE":float("inf")}
+
 			if student_answer_file_name:
+
 				try:
 					student_answer_file = open(student_answer_file_name, "r")
 					student_answer = json.load(student_answer_file)
@@ -358,10 +360,9 @@ def eachTestView(request, given_unique_id):
 					return HttpResponse(f'''<body><script>alert("Some error occured, maybe the answer is deleted. Contact us.")</script><meta http-equiv="refresh" content='0; url="/test/"'/></body>''')	
 
 				submit_status = True
-
 			test_end_time = selected_test.end_datetime.strftime("%d/%m/%Y %H:%M:%S")
 
-			return render(request, "test_each_page.html", {"csrf_token": csrf_token, "given_test":selected_test, "test_end_time": test_end_time, 'current_datetime':datetime.datetime.now(), "test_questions": test_questions, "student_answer":student_answer})
+			return render(request, "test_each_page.html", {"csrf_token": csrf_token, "submit_status":submit_status, "given_test":selected_test, "test_end_time": test_end_time, 'current_datetime':datetime.datetime.now(), "test_questions": test_questions, "student_answer":student_answer})
 	else:
 		# session is inactive.
 		return HttpResponse(f'''<body><meta http-equiv="refresh" content='0; url="/login/"'/></body>''')
@@ -626,11 +627,11 @@ def answerUpload(request, test_unique_id):
 		test_answer_file = open(test_answer_file_name,"r")
 		test_answer = json.load(test_answer_file)
 
-		student_answer_file_name = test_answer.get(extract_user__user_signup_database.id, False)
+		student_answer_file_name = test_answer.get(str(extract_user__user_signup_database.id), False)
 		test_answer_file.close()
 
 		if student_answer_file_name:
-			return HttpResponse(f'''<body><script>alert(Test is already submitted.")</script><meta http-equiv="refresh" content='0; url="/test/view/{test_unique_id}"'/></body>''')
+			return HttpResponse(f'''<body><script>alert("Test is already submitted.")</script><meta http-equiv="refresh" content='0; url="/test/view/{test_unique_id}"'/></body>''')
 
 		input_data = request.POST
 		
@@ -663,9 +664,9 @@ def answerUpload(request, test_unique_id):
 			a = json.dump(test_answer, test_answer_file)
 			test_answer_file.close()
 		except:
-			return HttpResponse(f'''<body><script>alert(There was an error while submission. If time is there please upload the answer again. Else contact teacher.")</script><meta http-equiv="refresh" content='0; url="/test/view/{test_unique_id}"'/></body>''')
+			return HttpResponse(f'''<body><script>alert("There was an error while submission. If time is there please upload the answer again. Else contact teacher.")</script><meta http-equiv="refresh" content='0; url="/test/view/{test_unique_id}"'/></body>''')
 
-		return HttpResponse(f'''<body><script>alert(Test is successfully submitted.")</script><meta http-equiv="refresh" content='0; url="/test/view/{test_unique_id}"'/></body>''')
+		return HttpResponse(f'''<body><script>alert("Test is successfully submitted.")</script><meta http-equiv="refresh" content='0; url="/test/view/{test_unique_id}"'/></body>''')
 
 def answerCheckPage(request, test_unique_id):
 	if request.POST or len(request.POST) > 0:

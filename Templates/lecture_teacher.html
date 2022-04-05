@@ -15,6 +15,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      .box{
+    width: 100%;
+margin: auto;
+padding: 2rem 2rem 2rem 2rem;
+background: rgba(255, 255, 255, 0.375);
+box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+border-radius: 2rem;
+border: 1px solid rgba(255, 255, 255, 0.125);
+}
+    </style>
    </head>
 <body>
   <div class="sidebar">
@@ -69,16 +80,19 @@
   </div>
   <div class="main">
     <div class="container">
-      <div class="row">
+      <div class="subject">
+      <div class="row  box">
         <div class="col-lg-10">
-          <div class="subject">
-            <h1 class="sub" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px; text-align: center;'>Teacher Lectures </h1>
-            <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
+          
+            <h1 class="sub" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px; text-align: center;'>Teacher Lectures </h1>
+            <h3 class="sub" style='background: rgba(255, 255, 255, 0.375);
+            box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+            border-radius: 2rem;  font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px;'>Select Subject</h3>
             <ul class="nav-links">
               {% for course_id in all_course_list %}
               {% for i, s_c_value in subject_code.items %}
               {% if s_c_value.0 == course_id|slice:"0:2" %}
-              <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;' class="course" id="course-{{ i|add:'1' }}">{{ s_c_value.1 }}</a></li>
+              <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px;' class="course" id="course-{{ i|add:'1' }}">{{ s_c_value.1 }}</a></li>
               {% endif %}
               {% endfor %}
               {% endfor %}
@@ -94,13 +108,19 @@
     {% if s_c_value.0 == each_course_id|slice:"0:2" %}
     <div class="course-content">
       <div class="course-{{i|add:'1'}}">
-        <div class="create-test"> <a href= "/lecture/create/{{each_course_id}}"><div style="text-align:center;"><button style='width:400px; text-align: center; font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white;background-color:rgb(255, 127, 138); border-color: rgb(255, 255, 255); padding: 10px;font-size:15px;' type="button" class="btn btn-primary">Create a New Lecture</button></a></div></div>
-        <h1 style="font-weight:bold; overflow-wrap: break-word; color: white; padding: 10px;">All Uploaded Lectures</h1>
+        <div class="create-test"> <a href= "/lecture/create/{{each_course_id}}"><div style="text-align:center;"><button style='width:400px;background: rgba(255, 255, 255, 0.375);
+          box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+          border-radius: 2rem; text-align: center; font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white;background-color:rgb(255, 127, 138); border-color: rgb(255, 255, 255); padding: 10px;font-size:15px;' type="button" class="btn btn-primary">Create a New Lecture</button></a></div></div>
+        <h1 style="font-weight:bold; overflow-wrap: break-word;background: rgba(255, 255, 255, 0.375);
+        box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+        border-radius: 2rem; color: black; padding: 10px;">All Uploaded Lectures</h1>
         {% for lecture_of_courses in lecture_all_list %}
         {% for lecture_each in lecture_of_courses %}
         <div class="pending-content">
             <details class="style7">
-              <summary><span style="overflow-wrap: break-word;font-size:15px;" class="moon-new">{{lecture_each.lecture_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{lecture_each.lecture_datetime.day}}/{{lecture_each.lecture_datetime.month}}/{{lecture_each.lecture_datetime.year}} {{lecture_each.lecture_datetime.hour}}:{%if lecture_each.lecture_datetime.minute < 10 %}0{%endif%}{{lecture_each.lecture_datetime.minute}}</strong></span></summary>
+              <summary><span style="overflow-wrap: break-word; background: rgba(255, 255, 255, 0.375);
+                box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+                border-radius: 2rem;font-size:15px;" class="moon-new">{{lecture_each.lecture_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{lecture_each.lecture_datetime.day}}/{{lecture_each.lecture_datetime.month}}/{{lecture_each.lecture_datetime.year}} {{lecture_each.lecture_datetime.hour}}:{%if lecture_each.lecture_datetime.minute < 10 %}0{%endif%}{{lecture_each.lecture_datetime.minute}}</strong></span></summary>
               <div class="content">
                 <form action="/lecture/view/{{lecture_each.lecture_unique_id}}" method="get"><button type="submit" style="height: 30px; margin-bottom: 10px;" class="btn btn-outline-secondary completed-course-details" value="View lecture">View Lecture</button></form>
                 <form action="/lecture/edit/{{lecture_each.lecture_unique_id}}" method="get"><button type="submit" style="height: 30px; margin-bottom: 10px;" class="btn btn-outline-secondary completed-course-details" value="Edit lecture">Edit Lecture</button></form>

@@ -14,7 +14,34 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      .box{
+    width: 100%;
+margin: auto;
+padding: 2rem 2rem 2rem 2rem;
+background: rgba(255, 255, 255, 0.375);
+box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+border-radius: 2rem;
+border: 1px solid rgba(255, 255, 255, 0.125);
+}
 
+.input100 {
+position: relative;
+display: block;
+width: 100%;
+background: #fff;
+border-radius: 3px;
+font-family: 'Matter Wild', sans-serif;
+font-size: 30px;
+color: #8f8fa1;
+line-height: 1.5;
+outline: none;
+border: none;
+background: rgba(255, 255, 255, 0.375);
+box-shadow: 0 0.75rem 2rem 0 rgba(214, 21, 21, 0.2);
+resize: vertical;
+}
+    </style>
   </head>
   <body>
     <div class="sidebar">
@@ -72,14 +99,12 @@
       <form  id="uploadform" name="time_test" action="/news/edit/upload/{{news_unique_id}}" enctype="multipart/form-data" method="post">{% csrf_token %}
         <h1>Edit an Announcement in {{ full_course_name }}</h1>
         <br>
-        <div class="item">
-          <p>Announcement Title</p>
-          <textarea class="text-add" type="text" placeholder="Title" name="news_title" onblur="title_validation();" required="true"></textarea>
-        </div>
-        <div class="item">
-          <p>Description</p>
-          <textarea class="text-add" type="text" placeholder="Instructions" name="news_description" onblur="instruction_validation();" required="true"></textarea>
-        </div>
+
+
+          <textarea class="input100" type="text" placeholder="Announcement Title" name="news_title" required="true" onblur="title_validation();"></textarea><br>
+
+          <textarea class="input100" type="text"placeholder="Description" name="news_description" required="true" onblur="title_validation();"></textarea><br>
+ 
         <div class="btn-block">
           <button type="submit" href="#" class=" btn btn-defalut btn-info" style="background-color: #11101D;color:white;">Edit</button>
         </div>

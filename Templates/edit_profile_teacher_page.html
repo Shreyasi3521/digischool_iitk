@@ -93,7 +93,7 @@
 
             <th style="width:30%"><a  class="edit-profile-bot"><label for="fileField">
               {% load static %}
-              <img src="{% static 'profile_photo.jpg' %}" alt="Profile" height="100px" width="100px"></label>
+              <img src="{{MEDIA_URL}}{{profile_data.user_profile_photo}}" alt="Profile" height="100px" width="100px"></label>
   
               <input name="imagefile" type="file" id="fileField"  accept="image/*" > </th>
             <th>

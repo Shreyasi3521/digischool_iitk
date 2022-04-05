@@ -55,10 +55,10 @@ def newsPage(request):
 			all_course_id = course_models.CLASS_COURSES_MAPPING.objects.get(unique_id=generated_unique_id) 
 			all_course_id = all_course_id.course_id_array
 			all_course_id = all_course_id.strip().split(" ")
-			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
+			
 
 			user_courses = course_models.AVAILABLE_COURSES.objects.filter(course_id__in=all_course_id)
-
+			all_course_id = { i: all_course_id[i] for i in range(len(all_course_id)) }
 			news_all_list = {i:course_models.ALL_ANOUNCEMENT.objects.filter(news_unique_id__contains=each_user_course.course_id) for i, each_user_course in enumerate(user_courses)}
 			
 			return render(request, "news_student.html", { "news_all_list":news_all_list, "all_course_list":all_course_id,  "subject_code":  { i: [AVAILABLE_SUBJECTS[i], FULL_NAME[i]] for i in range(len(AVAILABLE_SUBJECTS))}, "current_datetime":datetime.datetime.now()})

@@ -63,10 +63,6 @@
     width: 50%
 }
 
-body {
-    {% load static %}
-    background-image: url("{% static 'pexels-photo-6672227.jpeg' %}");
-}
 
 #nav-items li a,
 #profile {
@@ -115,7 +111,15 @@ body {
 .darker span {
     color: rgb(184, 183, 183)
 }
-
+.box{
+    width: 100%;
+margin: auto;
+padding: 2rem 2rem 2rem 2rem;
+background: rgba(255, 255, 255, 0.375);
+box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+border-radius: 2rem;
+border: 1px solid rgba(255, 255, 255, 0.125);
+}
 h1, h2, h3,
 h4, h5{
     color: white;
@@ -211,6 +215,7 @@ form {
       </ul>
   </div>
   <div class="main">
+      <div class="box">
     <section>
         <div class="container">
             <div class="row">
@@ -253,6 +258,7 @@ form {
         </div>
     </section>
   </div>
+</div>
   <script src="test.js"></script>
   
   {% load static %}

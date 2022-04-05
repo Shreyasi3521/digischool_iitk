@@ -67,12 +67,14 @@
   </div>
   <div class="main">
     <div class="subject">
-      <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
+      <h3 class="sub boxtext" style='background: rgba(255, 255, 255, 0.375);
+      box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+      border-radius: 2rem;font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px;'>Select Subject</h3>
       <ul class="nav-links">
         {% for k, course_id in all_course_list.items %}
         {% for i, s_c_value in subject_code.items %}
         {% if s_c_value.0 == course_id|slice:"0:2" %}
-        <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;' class="course" id="course-{{i|add:'1'}}">{{ s_c_value.1 }}</a></li>
+        <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px;' class="course" id="course-{{i|add:'1'}}">{{ s_c_value.1 }}</a></li>
         {% endif %}
         {% endfor %}
         {% endfor %}
@@ -85,26 +87,27 @@
       {% for l, forum_of_courses in forum_all_list.items  %}
             {% if l == e %}
         <div class="course-content">
-          
-          <div class="course-{{e|add:'1'}}">
-            <div class="go-back"> <a style="text-decoration: none;"href= "/forum/"><button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button"  class="btn btn-default btn-block"><span style="color:black;">Go Back to Main Page</span></button></a> </div>
-            <br>
-            <div class="create-test"> <a href= "/forum/create/{{each_course_id}}"> <button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button" class="btn btn-primary btn-block">Create a New Forum</button></a></div>
-            <h1 style="font-weight:bold; overflow-wrap: break-word; color: white; padding: 10px;">All Forum</h1>
 
+          <div class="course-{{e|add:'1'}}">
+            
             
             
             {% for forum_each in forum_of_courses%}
               <div class="completed-content">
+
+                <div class="create-test"> <a href= "/forum/create/{{each_course_id}}"> <button style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;font-size:15px;' type="button" class="btn btn-primary btn-block">Create a New Forum</button></a></div>
+            <h1 style="font-weight:bold; overflow-wrap: break-word; color: black; padding: 10px;">All Forum</h1>
+   
                 <details class="style7">
                   <summary><span style="overflow-wrap: break-word;font-size:15px;" class="moon-new">{{forum_each.forum_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{forum_each.forum_datetime.day}}/{{forum_each.forum_datetime.month}}/{{forum_each.forum_datetime.year}} {{forum_each.forum_datetime.hour}}:{%if forum_each.forum_datetime.minute < 10 %}0{%endif%}{{forum_each.forum_datetime.minute}}</strong></span></summary>
                     <div class="content">
-                        <form action="/forum/view/{{forum_each.forum_unique_id}}" method="get"><button type="submit" style="height: 30px;" class="btn btn-outline-secondary completed-course-details" value="View forum">View Forum</button></form>
+                        <form action="/forum/view/{{forum_each.forum_unique_id}}" method="get"><button type="submit" style="height: 30px; font-size: 1em; text-align: center;" class="btn btn-outline-secondary completed-course-details" value="View forum">View Forum</button></form>
                     </div>
                 </details>
               </div>
+
               {%endfor%}
-              
+  
           </div>
         </div>
         {%endif%}

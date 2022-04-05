@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+  
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'test_create_final.css' %}">
   </head>
   <body>
     <div class="sidebar">
@@ -67,69 +69,60 @@
           </li>
         </ul>
     </div>
-    <div class="testbox">
-      <!--need do all jscript onblur functions.-->
-      <form  id="uploadform" name="time_test" action="/test/upload/" enctype="multipart/form-data" method="post">{% csrf_token %}
-        <h1>Create a test in {{ full_course_name }}</h1>
-        <br>
-        <input type="hidden" name="selected_course" value="{{ course_id }}">
-        <div class="item">
-          <p>Test Name</p>
-          <textarea class="text-add" type="text" placeholder="Title" name="test_title" onblur="title_validation();" required="true"></textarea>
-        </div>
-        <div class="item">
-          <p>Instructions</p>
-          <textarea class="text-add" type="text" placeholder="Instructions" name="test_instruct" onblur="instruction_validation();" required="true"></textarea>
-        </div>
-        <div class="item">
-          <p>Maximum Marks:</p>
-          <input class="text-add" type="number" placeholder="100" name="max_marks" onblur="instruction_validation();" required="true">
-        </div>
-        <div class="item">
-          <p>Minimum Marks</p>
-          <input class="text-add" type="number" placeholder="0" name="min_marks" onblur="instruction_validation();" required="true">
-        </div>
-        <div class="item">
-          <p>Start Date:</p>
-          <input type="date" id="start_date" name="start_date" required="true">
-        </div>
-        <div class="item">
-          <p>Start Time:</p>
-          <input id="start_time" type="time" name="start_time" required="true">
-        </div>
-        <div class="item">
-          <p>End Date:</p>
-          <input type="date" id="end_date" name="end_date" required="true">
-        </div>
-        <div class="item">
-          <p>End Time:</p>
-          <input id="end_time" type="time" name="end_time" required="true"><!--add "pattern" attribute in all the above date and time inputs. date pattern must be yyyy-mm-dd and time pattern is 24 hr clock hh:mm-->
-        </div>
-        <div class="item">
-          <p>Select a file:</p>
-          <input type="file" id="selectedfiles" placeholder="Upload files (if any)" name="test-files"  onchange="printfiles();"><!--add a attribute of only allowed file types.-->
-        </div>
-        <p id="filesplaceholder"></p>
-        <div id="question-add">
-          <div style="text-align: center;">
-            <input type="button" class="btn btn-info" value="Add More question" onclick="javascript: addQuestion();"/>
-          </div>
-          <div class="item" >
-            <p>Question 1</p>
-            <textarea type="text" name="question-1"></textarea>
+      <div class="box" style="margin:auto">
+        <form  id="uploadform" name="time_test" action="/test/upload/" enctype="multipart/form-data" method="post">{% csrf_token %}
+            <p style="font-family: 'Matter Wild', sans-serif; font-size: 2em;">Hi how are you, create a test for students in This subject :{{ full_course_name }} </p>
             <br>
-          </div>
-        </div>
-        <div class="btn-block">
-          <button type="submit" href="#" class=" btn btn-defalut btn-info" style="background-color: #11101D;color:white;">Create</button>
-        </div>
-      </form>
+            <input type="hidden" name="selected_course" value="{{ course_id }}">
+            
+            <textarea class="input100" type="text" name="test_title" placeholder="The title of the test comes here. (required)" required="true" onblur="title_validation();"></textarea><br>
+
+            <textarea class="input100" type="text" name="test_instruct" placeholder="Instructions about the test. (required)" required="true" onblur="instruction_validation();"></textarea><br>
+
+            <input  style="float:left; margin-top: 5px;" type="number" placeholder="maximum marks" name="max_marks" onblur="instruction_validation();" required="true">
+              
+            <input  style="float:left; margin-left: 20px; margin-top: 5px;" type="number"  placeholder="minimum marks" name="min_marks" onblur="instruction_validation();" required="true">
+            <br>
+            <br>
+            <p style="font-family: 'Matter Wild', sans-serif; font-size: 2em;">Start time and Date</p>
+            <input  style="float:left;font-family: 'Matter Wild', sans-serif;" type="date" id="start_date" placeholder="Start date" name="start_date" required="true">
+
+            <input style="float:left;margin-left: 20px;font-family: 'Matter Wild', sans-serif; " id="start_time" type="time" name="start_time" required="true">
+            <br>
+            <br>
+            <p style="font-family: 'Matter Wild', sans-serif; font-size: 2em;">End time and Date</p>
+            <input  style="float:left;font-family: 'Matter Wild', sans-serif;" type="date" id="end_date" name="end_date" placeholder="Start date" required="true">
+
+            <input style="float:left;margin-left: 20px;font-family: 'Matter Wild', sans-serif; " id="end_time" name="end_time" type="time" required="true"><!--add "pattern" attribute in all the above date and time inputs. date pattern must be yyyy-mm-dd and time pattern is 24 hr clock hh:mm-->
+            <br>
+            <br><br>
+            <br>
+            <input  type="file" id="selectedfiles" name="test-files"/><!--add a attribute of only allowed file types.-->
+            <label for="file">Select Files (only one file is allowed, you may zip if multiple)</label>
+            <p style="color:rgb(0, 0, 0)" id="filesplaceholder"></p>
+            <br>
+            <br>
+            <div id="question-add">
+              <div style="text-align: center;">
+                <input type="button" class="button-question" value="Add More question" onclick="javascript: addQuestion();"/>
+              </div>
+              <br>
+              <div style="text-align: center;">
+                <input type="button" class="button-question" value="Remove question" onclick="javascript: removeQuestion();"/>
+              </div>
+              <br>
+              <div class="item" >
+                <textarea class="input200" style="margin-bottom: 20px;" type="text" id="1" name="question-1" placeholder="Question 1 (atleast one question is required)" required="true" onblur="title_validation();"></textarea>
+              </div>
+            </div>
+            <br>
+            <div class="btn-block" style="text-align: center;">
+              <button type="submit" class="button-question" style="color:white; background-color: black; height:40px; font-size:large">Create</button>
+            </div>
+          </form>
     </div>
     {% load static %}
-    <script src="{% static 'test1.js' %}"></script>
-    {% load static %}
-    <script src="{% static 'test_create.js' %}"></script>
-    {% load static %}
-    <script src="{% static 'test2.js' %}"></script>
+    <script src="{% static 'test_create_final.js' %}"></script>
+
   </body>
 </html>

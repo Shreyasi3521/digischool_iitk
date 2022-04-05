@@ -72,12 +72,14 @@
       <div class="row">
         <div class="col-lg-10">
           <div class="subject">
-            <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
+            <h3 class="sub boxtext" style='background: rgba(255, 255, 255, 0.375);
+            box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+            border-radius: 2rem;font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px;'>Select Subject</h3>
             <ul class="nav-links">
               {% for course_id in all_course_list %}
               {% for i, s_c_value in subject_code.items %}
               {% if s_c_value.0 == course_id|slice:"0:2" %}
-              <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;' class="course" id="course-{{ i|add:'1' }}">{{ s_c_value.1 }}</a></li>
+              <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color:black; padding: 10px;' class="course" id="course-{{ i|add:'1' }}">{{ s_c_value.1 }}</a></li>
               {% endif %}
               {% endfor %}
               {% endfor %}

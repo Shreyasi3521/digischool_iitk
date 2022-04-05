@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="test_create_final.css">
    </head>
 <body>
-    <div class="box">
+    <div class="box" style="margin:auto">
         <form  id="uploadform" name="time_test" action="/test/upload/" enctype="multipart/form-data" method="post">{% csrf_token %}
             <p style="font-family: 'Matter Wild', sans-serif; font-size: 2em;">Hi how are you, create a test for students in This subject :{{ full_course_name }} </p>
             <br>

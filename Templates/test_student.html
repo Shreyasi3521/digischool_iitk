@@ -67,12 +67,14 @@
   </div>
   <div class="main">
     <div class="subject">
-      <h3 class="sub boxtext" style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;'>Select Subject</h3>
+      <h3 class="sub boxtext" style='background: rgba(255, 255, 255, 0.375);
+      box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.2);
+      border-radius: 2rem;font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px;'>Select Subject</h3>
       <ul class="nav-links">
         {% for k, course_id in all_course_list.items %}
         {% for i, s_c_value in subject_code.items %}
         {% if s_c_value.0 == course_id|slice:"0:2" %}
-        <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: white; padding: 10px;' class="course" id="course-{{i|add:'1'}}">{{ s_c_value.1 }}</a></li>
+        <li><a style='font: "Open Sans"; font-weight: bold; overflow-wrap: break-word; color: black; padding: 10px;' class="course" id="course-{{i|add:'1'}}">{{ s_c_value.1 }}</a></li>
         {% endif %}
         {% endfor %}
         {% endfor %}
@@ -89,7 +91,7 @@
           <div class="course-{{e|add:'1'}}">
             {% for test_each in test_of_courses%}
             {% if current_datetime.timestamp > test_each.start_datetime.timestamp %} <!--This is because time stamp looks from jan 1970 and so current's timestamp-->
-            {% if current_datatime.timestamp > test_each.end_datetime.timestamp %}
+            {% if current_datatime.timestamp < test_each.end_datetime.timestamp %}
                   <div class="completed-content">
                     <details class="style7">
                       <summary><span style="overflow-wrap: break-word;font-size:15px;" class="moon-new">{{test_each.test_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{test_each.end_datetime.day}}/{{test_each.end_datetime.month}}/{{test_each.end_datetime.year}} {{test_each.end_datetime.hour}}:{%if test_each.end_datetime.minute < 10 %}0{%endif%}{{test_each.end_datetime.minute}}</strong></span></summary>
@@ -103,7 +105,7 @@
                   <details class="style7">
                     <summary><span style="overflow-wrap: break-word;font-size:15px;" class="moon-new">{{test_each.test_title}}</span><span style="align-items:right;font-size:20px;" class="moon-full test-date"><strong>{{test_each.end_datetime.day}}/{{test_each.end_datetime.month}}/{{test_each.end_datetime.year}} {{test_each.end_datetime.hour}}:{%if test_each.end_datetime.minute < 10 %}0{%endif%}{{test_each.end_datetime.minute}}</strong></span></summary>
                     <div class="content">
-                      <form action="/test/view/{{test_each.test_unique_id}}" method="get"><button type="submit" style="height: 30px;" class="btn btn-outline-secondary pending-course-details" value="View Test">View Test</button></form>
+                      <form action="/test/view/{{test_each.test_unique_id}}" method="get"><button type="submit" style="height: 30px; font-size: 1em; text-align: center;" class="btn btn-outline-secondary pending-course-details" value="View Test">View Test</button></form>
                     </div>
                   </details>
                 </div>
